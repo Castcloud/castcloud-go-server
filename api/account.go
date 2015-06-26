@@ -38,15 +38,16 @@ func login(c *echo.Context) error {
 			return err
 		}
 
-		err = c.JSON(200, token{t})
-
-		store.AddClient(user.ID, &Client{
+		err = store.AddClient(user.ID, &Client{
 			Token: t,
 			UUID:  uuid,
 			Name:  form(c, "clientname"),
 		})
+		if err != nil {
+			return err
+		}
 
-		return err
+		return c.JSON(200, token{t})
 	}
 
 	return echo.NewHTTPError(401)
@@ -57,7 +58,7 @@ func login(c *echo.Context) error {
 //
 func ping(c *echo.Context) error {
 	// This function getting called means there was a valid token
-	return c.NoContent(200)
+	return nil
 }
 
 func createToken(length int) (string, error) {
