@@ -86,19 +86,22 @@ func createRouter() *echo.Echo {
 	casts.Put("/:id", renameCast)
 	casts.Delete("/:id", removeCast)
 
-	/*episodes := r.Group("/library")
-	episodes.Get("/newepisodes")
-	episodes.Get("/episodes/:castid")
-	episodes.Get("/episode/:id")
-	episodes.Get("/episodes/label/:label")
+	// Perhaps:
+	// /newepisodes           -> /episodes?since=0
+	// /episodes/label/:label -> /episodes?label=label
+	episodes := r.Group("/library")
+	episodes.Get("/newepisodes", getNewEpisodes)
+	episodes.Get("/episodes/:castid", getEpisodes)
+	episodes.Get("/episode/:id", getEpisode)
+	episodes.Get("/episodes/label/:label", getEpisodesByLabel)
 
-	events := r.Group("/library/events")
-	events.Get("/")
-	events.Post("/")
+	/*events := r.Group("/library/events")
+	events.Get("")
+	events.Post("")
 
 	labels := r.Group("/library/labels")
-	labels.Get("/")
-	labels.Post("/")
+	labels.Get("")
+	labels.Post("")
 	labels.Put("/:id")
 	labels.Delete("/:id")
 
