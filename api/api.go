@@ -5,38 +5,62 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/labstack/echo"
-	mw "github.com/labstack/echo/middleware"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
+	mw "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo/middleware"
 )
 
 var (
-	store Store
-	crawl *crawler
+	store  APIStore
+	crawl  *crawler
+	config *Config
 )
 
 type Config struct {
-	Port    int
-	DataDir string
-	Debug   bool
+	Port  int
+	Dir   string
+	Debug bool
 
 	MaxDownloadConnections int
 }
 
-func Serve(cfg *Config) {
-	var err error
-	store, err = NewBoltStore(path.Join(cfg.DataDir, "store"))
-	if err != nil {
-		log.Fatal(err)
-	}
+func Store() APIStore {
+	openStore(path.Join(config.Dir, "store"))
+	return store
+}
+
+func Configure(cfg *Config) {
+	config = cfg
+}
+
+func Serve() {
+	openStore(path.Join(config.Dir, "store"))
 
 	crawl = newCrawler()
-	crawl.start(cfg.MaxDownloadConnections)
+	crawl.start(config.MaxDownloadConnections)
 
-	cast := <-crawl.fetch("http://feeds.feedburner.com/BsdNowHd")
-	log.Println(cast.Name, ":", cast.URL)
+	store.AddUser(&User{
+		Username: "test",
+		Password: "pass",
+	})
+	store.AddClient(1, &Client{
+		Token: "token",
+		UUID:  "real_unique",
+		Name:  "Castcloud",
+	})
 
 	r := createRouter()
-	r.Run(":" + strconv.Itoa(cfg.Port))
+	log.Println("API listening on port", config.Port)
+	r.Run(":" + strconv.Itoa(config.Port))
+}
+
+func openStore(p string) {
+	if store == nil {
+		var err error
+		store, err = NewBoltStore(p)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
 func createRouter() *echo.Echo {
@@ -51,36 +75,36 @@ func createRouter() *echo.Echo {
 	account := r.Group("/account")
 	account.Post("/login", login)
 	account.Get("/ping", ping)
-	/*account.Get("/settings", nil)
-	account.Post("/settings", nil)
-	account.Delete("/settings/:id", nil)
-	account.Get("/takeout", nil)*/
+	/*account.Get("/settings")
+	account.Post("/settings")
+	account.Delete("/settings/:id")
+	account.Get("/takeout")*/
 
 	casts := r.Group("/library/casts")
 	casts.Get("", getCasts)
 	casts.Post("", addCast)
-	/*casts.Put("/:id", nil)
-	casts.Delete("/:id", nil)
+	casts.Put("/:id", renameCast)
+	casts.Delete("/:id", removeCast)
 
-	episodes := r.Group("/library")
-	episodes.Get("/newepisodes", nil)
-	episodes.Get("/episodes/:castid", nil)
-	episodes.Get("/episode/:id", nil)
-	episodes.Get("/episodes/label/:label", nil)
+	/*episodes := r.Group("/library")
+	episodes.Get("/newepisodes")
+	episodes.Get("/episodes/:castid")
+	episodes.Get("/episode/:id")
+	episodes.Get("/episodes/label/:label")
 
 	events := r.Group("/library/events")
-	events.Get("/", nil)
-	events.Post("/", nil)
+	events.Get("/")
+	events.Post("/")
 
 	labels := r.Group("/library/labels")
-	labels.Get("/", nil)
-	labels.Post("/", nil)
-	labels.Put("/:id", nil)
-	labels.Delete("/:id", nil)
+	labels.Get("/")
+	labels.Post("/")
+	labels.Put("/:id")
+	labels.Delete("/:id")
 
 	opml := r.Group("/library")
-	opml.Get("/casts.opml", nil)
-	opml.Post("/casts.opml", nil)*/
+	opml.Get("/casts.opml")
+	opml.Post("/casts.opml")*/
 
 	return r
 }

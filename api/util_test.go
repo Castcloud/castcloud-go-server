@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/labstack/echo"
-	"github.com/stretchr/testify/assert"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
 func TestFormContains(t *testing.T) {

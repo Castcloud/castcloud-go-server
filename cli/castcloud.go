@@ -6,9 +6,9 @@ import (
 	"os"
 	"path"
 
-	"github.com/mitchellh/go-homedir"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/mitchellh/go-homedir"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/viper"
 
 	"github.com/khlieng/castcloud-go/api"
 	"github.com/khlieng/castcloud-go/assets"
@@ -16,25 +16,10 @@ import (
 
 var (
 	castcloudCmd = &cobra.Command{
-		Use:   "castcloud",
+		Use:   os.Args[0],
 		Short: "Your podcast library in the cloud.",
 		Run: func(cmd *cobra.Command, args []string) {
-			api.Serve(&api.Config{
-				Port:                   viper.GetInt("port"),
-				Debug:                  viper.GetBool("debug"),
-				DataDir:                viper.GetString("dir"),
-				MaxDownloadConnections: viper.GetInt("crawl.max_conn"),
-			})
-		},
-		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			dir = viper.GetString("dir")
-
-			os.Mkdir(dir, 0777)
-			initConfig()
-
-			viper.SetConfigName("config")
-			viper.AddConfigPath(dir)
-			viper.ReadInConfig()
+			api.Serve()
 		},
 	}
 
@@ -44,13 +29,36 @@ var (
 func init() {
 	viper.SetDefault("crawl.max_conn", 128)
 
-	castcloudCmd.Flags().IntP("port", "p", 3000, "port to listen on")
+	castcloudCmd.AddCommand(clearCmd)
+	castcloudCmd.AddCommand(configCmd)
+	usersCmd.AddCommand(usersAddCmd)
+	usersCmd.AddCommand(usersRemoveCmd)
+	castcloudCmd.AddCommand(usersCmd)
+
 	castcloudCmd.PersistentFlags().Bool("debug", false, "debug mode")
 	castcloudCmd.PersistentFlags().String("dir", defaultDir(), "directory to store config and data in")
+	castcloudCmd.Flags().IntP("port", "p", 3000, "port to listen on")
 
-	viper.BindPFlag("port", castcloudCmd.Flags().Lookup("port"))
 	viper.BindPFlag("debug", castcloudCmd.PersistentFlags().Lookup("debug"))
 	viper.BindPFlag("dir", castcloudCmd.PersistentFlags().Lookup("dir"))
+	viper.BindPFlag("port", castcloudCmd.Flags().Lookup("port"))
+
+	cobra.OnInitialize(func() {
+		dir = viper.GetString("dir")
+		os.Mkdir(dir, 0777)
+		initConfig()
+
+		viper.SetConfigName("config")
+		viper.AddConfigPath(dir)
+		viper.ReadInConfig()
+
+		api.Configure(&api.Config{
+			Port:  viper.GetInt("port"),
+			Debug: viper.GetBool("debug"),
+			Dir:   dir,
+			MaxDownloadConnections: viper.GetInt("crawl.max_conn"),
+		})
+	})
 }
 
 func Execute() {

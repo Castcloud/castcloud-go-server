@@ -4,7 +4,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
 func TestGetCasts(t *testing.T) {
@@ -47,11 +47,10 @@ func TestAddCast(t *testing.T) {
 	user := store.GetUser("test")
 	assert.Len(t, user.Subscriptions, 1)
 
-	// It should (probably) return a null when the crawling fails
+	// It should return 500 when the crawling fails
 	req.PostForm.Set("feedurl", "dat_url")
 	res = req.send()
-	assert.Equal(t, 200, res.Code)
-	assert.Equal(t, testJSON(nil), res.Body.String())
+	assert.Equal(t, 500, res.Code)
 
 	// There should still be only 1 subscription
 	user = store.GetUser("test")
@@ -64,6 +63,7 @@ func TestAddCast(t *testing.T) {
 		Name: "BSD Now HD",
 	})
 
+	// TODO: Use something local
 	req.PostForm.Set("feedurl", "http://feeds.feedburner.com/BsdNowHd")
 	res = req.send()
 	assert.Equal(t, 200, res.Code)
@@ -72,4 +72,31 @@ func TestAddCast(t *testing.T) {
 	// There should now be 2 subscriptions
 	user = store.GetUser("test")
 	assert.Len(t, user.Subscriptions, 2)
+
+	// The new cast should be in the store
+	cast := store.GetCastByURL("http://feeds.feedburner.com/BsdNowHd")
+	assert.NotNil(t, cast)
+	assert.Equal(t, "BSD Now HD", cast.Name)
+}
+
+func TestRenameCast(t *testing.T) {
+	r := createRouter()
+
+	req := testRequest(r, "PUT", "/library/casts/1", nil)
+	req.Header.Set("Authorization", "token")
+	req.PostForm = url.Values{}
+	req.PostForm.Set("name", "new")
+	res := req.send()
+	assert.Equal(t, 200, res.Code)
+	assert.Equal(t, "new", store.GetCast(1).Name)
+}
+
+func TestRemoveCast(t *testing.T) {
+	r := createRouter()
+
+	req := testRequest(r, "DELETE", "/library/casts/1", nil)
+	req.Header.Set("Authorization", "token")
+	assert.Equal(t, 200, req.send().Code)
+	user := store.GetUser("test")
+	assert.NotContains(t, user.Subscriptions, uint64(1))
 }

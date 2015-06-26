@@ -4,23 +4,30 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"os"
 	"testing"
 
-	"github.com/labstack/echo"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
 )
 
 func TestMain(m *testing.M) {
-	var err error
-	store, err = NewBoltStore("/home/kenh/__cc_test_store")
-	if err != nil {
-		log.Fatal(err)
-	}
+	openStore("/home/kenh/__cc_test_store")
+	initTestData()
 
+	crawl = newCrawler()
+	crawl.start(4)
+
+	code := m.Run()
+
+	store.Close()
+	os.Remove("/home/kenh/__cc_test_store")
+	os.Exit(code)
+}
+
+func initTestData() {
 	store.AddUser(&User{
 		Username: "test",
 		Password: "pass",
@@ -35,15 +42,6 @@ func TestMain(m *testing.M) {
 		Name: "test",
 	})
 	store.AddSubscription(1, 1)
-
-	crawl = newCrawler()
-	crawl.start(4)
-
-	code := m.Run()
-
-	store.Close()
-	os.Remove("/home/kenh/__cc_test_store")
-	os.Exit(code)
 }
 
 type testReq struct {

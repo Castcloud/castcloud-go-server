@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/labstack/echo"
+	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
 )
 
 func auth() echo.HandlerFunc {
