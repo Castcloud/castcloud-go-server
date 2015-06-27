@@ -59,12 +59,13 @@ func TestAddCast(t *testing.T) {
 	// It should return a new cast
 	expectedJSON = testJSON(Cast{
 		ID:   2,
-		URL:  "http://feeds.feedburner.com/BsdNowHd",
+		URL:  testServer.URL,
 		Name: "BSD Now HD",
 	})
 
 	// TODO: Use something local
-	req.PostForm.Set("feedurl", "http://feeds.feedburner.com/BsdNowHd")
+	//req.PostForm.Set("feedurl", "http://feeds.feedburner.com/BsdNowHd")
+	req.PostForm.Set("feedurl", testServer.URL)
 	res = req.send()
 	assert.Equal(t, 200, res.Code)
 	assert.Equal(t, expectedJSON, res.Body.String())
@@ -74,7 +75,7 @@ func TestAddCast(t *testing.T) {
 	assert.Len(t, user.Subscriptions, 2)
 
 	// The new cast should be in the store
-	cast := store.GetCastByURL("http://feeds.feedburner.com/BsdNowHd")
+	cast := store.GetCastByURL(testServer.URL)
 	assert.NotNil(t, cast)
 	assert.Equal(t, "BSD Now HD", cast.Name)
 }
