@@ -15,6 +15,8 @@ import (
 )
 
 var testServer *httptest.Server
+var testRSS string
+var testAtom string
 
 func TestMain(m *testing.M) {
 	storePath := tempfile()
@@ -24,11 +26,10 @@ func TestMain(m *testing.M) {
 	initTestData()
 	defer store.Close()
 
-	testServer = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/xml")
-		w.Write(testFeed)
-	}))
+	testServer = httptest.NewServer(http.HandlerFunc(testHandler))
 	defer testServer.Close()
+	testRSS = testServer.URL + "/rss"
+	testAtom = testServer.URL + "/atom"
 
 	crawl = newCrawler()
 	crawl.start(4)
@@ -51,6 +52,23 @@ func initTestData() {
 		Name: "test",
 	})
 	store.AddSubscription(1, 1)
+}
+
+func testHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/xml")
+	switch r.URL.Path {
+	case "/rss":
+		w.Write(testFeed)
+
+	case "/atom":
+		w.Write(atomTestFeed)
+
+	case "/notxml":
+		w.Write([]byte("What is this stuff?"))
+
+	default:
+		w.WriteHeader(404)
+	}
 }
 
 type testReq struct {
@@ -121,3 +139,36 @@ var testFeed = []byte(`<?xml version="1.0" encoding="UTF-8"?>
             <media:thumbnail url="http://www.jupiterbroadcasting.com/wp-content/uploads/2015/06/bsd-0095-v.jpg" />
         <author>BSD, FreeBSD, PCBSD, PC-BSD, OpenBSD, NetBSD, DragonFlyBSD, FreeNAS, pfSense, Interview, Tutorial, ZFS, UFS (Jupiter Broadcasting)</author><media:content url="http://www.podtrac.com/pts/redirect.mp4/201406.jb-dl.cdn.scaleengine.net/bsdnow/2015/bsd-0095.mp4" fileSize="510856278" type="video/mp4" /></item><copyright>Copyright Jupiter Broadcasting</copyright><media:credit role="author">Jupiter Broadcasting</media:credit><media:rating>nonadult</media:rating><media:description type="plain">Everything you wanted to know about BSD</media:description></channel>
 </rss>`)
+
+var atomTestFeed = []byte(`<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+	<title>Example Feed</title>
+	<subtitle>A subtitle.</subtitle>
+	<link href="http://example.org/feed/" rel="self" />
+	<link href="http://example.org/" />
+	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
+	<updated>2003-12-13T18:30:02Z</updated>
+	
+	
+	<entry>
+		<title>Atom-Powered Robots Run Amok</title>
+		<link href="http://example.org/2003/12/13/atom03" />
+		<link rel="alternate" type="text/html" href="http://example.org/2003/12/13/atom03.html"/>
+		<link rel="edit" href="http://example.org/2003/12/13/atom03/edit"/>
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Some text.</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				<p>This is the entry content.</p>
+			</div>
+		</content>
+		<author>
+			<name>John Doe</name>
+			<email>johndoe@example.com</email>
+		</author>
+	</entry>
+
+</feed>`)

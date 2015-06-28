@@ -6,6 +6,12 @@ import (
 	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
+func TestGetUsers(t *testing.T) {
+	users := store.GetUsers()
+	assert.NotNil(t, users)
+	assert.Equal(t, "test", users[0].Username)
+}
+
 func TestAddUser(t *testing.T) {
 	err := store.AddUser(&User{
 		Username: "added",

@@ -7,5 +7,7 @@ type feedRSS struct {
 }
 
 type feedAtom struct {
-	Title string `xml:"title"`
+	Title       string `xml:"title"`
+	Description string `xml:"subtitle" json:"description"`
+	Link        string `xml:"link" json:"link"`
 }

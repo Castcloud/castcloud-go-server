@@ -55,11 +55,11 @@ func TestAddCast(t *testing.T) {
 	assert.Len(t, user.Subscriptions, 1)
 
 	// It should return a new cast
-	req.PostForm.Set("feedurl", testServer.URL)
+	req.PostForm.Set("feedurl", testRSS)
 	res = req.send()
 	assert.Equal(t, 200, res.Code)
 	json.Unmarshal(res.Body.Bytes(), cast)
-	assert.Equal(t, testServer.URL, cast.URL)
+	assert.Equal(t, testRSS, cast.URL)
 	assert.Equal(t, "BSD Now HD", cast.Name)
 	assert.NotNil(t, cast.Feed)
 
@@ -68,7 +68,7 @@ func TestAddCast(t *testing.T) {
 	assert.Len(t, user.Subscriptions, 2)
 
 	// The new cast should be in the store
-	cast = store.GetCastByURL(testServer.URL)
+	cast = store.GetCastByURL(testRSS)
 	assert.NotNil(t, cast)
 	assert.Equal(t, "BSD Now HD", cast.Name)
 }

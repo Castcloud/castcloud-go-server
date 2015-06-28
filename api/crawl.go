@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"encoding/xml"
+	"io"
 	"net/http"
 )
 
@@ -45,51 +46,54 @@ func (c *crawler) fetcher() {
 			return
 		}
 
-		resp, err := http.Get(job.url)
-		if err != nil {
-			job.result <- nil
-			continue
+		job.result <- c.download(job.url)
+	}
+}
+
+func (c *crawler) download(url string) *Cast {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return nil
+	}
+
+	return c.decode(resp.Body, url)
+}
+
+func (c *crawler) decode(body io.Reader, url string) *Cast {
+	decoder := xml.NewDecoder(body)
+	for {
+		token, _ := decoder.Token()
+		if token == nil {
+			return nil
 		}
-		defer resp.Body.Close()
 
-		if resp.StatusCode != 200 {
-			job.result <- nil
-			continue
-		}
+		switch t := token.(type) {
+		case xml.StartElement:
+			if t.Name.Local == "channel" {
+				feed := feedRSS{}
+				decoder.DecodeElement(&feed, &t)
 
-		decoder := xml.NewDecoder(resp.Body)
-		for {
-			token, _ := decoder.Token()
-			if token == nil {
-				job.result <- nil
-				break
-			}
+				cast := &Cast{URL: url, Name: feed.Title}
+				v, _ := json.Marshal(feed)
+				cast.Feed = (*json.RawMessage)(&v)
 
-			switch t := token.(type) {
-			case xml.StartElement:
-				if t.Name.Local == "channel" {
-					feed := feedRSS{}
-					decoder.DecodeElement(&feed, &t)
+				store.SaveCast(cast)
+				return cast
+			} else if t.Name.Local == "feed" {
+				feed := feedAtom{}
+				decoder.DecodeElement(&feed, &t)
 
-					cast := &Cast{URL: job.url, Name: feed.Title}
-					v, _ := json.Marshal(feed)
-					cast.Feed = (*json.RawMessage)(&v)
+				cast := &Cast{URL: url, Name: feed.Title}
+				v, _ := json.Marshal(feed)
+				cast.Feed = (*json.RawMessage)(&v)
 
-					store.SaveCast(cast)
-					job.result <- cast
-					break
-				} else if t.Name.Local == "feed" {
-					feed := feedAtom{}
-					decoder.DecodeElement(&feed, &t)
-
-					cast := &Cast{URL: job.url, Name: feed.Title}
-					v, _ := json.Marshal(feed)
-					cast.Feed = (*json.RawMessage)(&v)
-
-					store.SaveCast(cast)
-					job.result <- cast
-					break
-				}
+				store.SaveCast(cast)
+				return cast
 			}
 		}
 	}
