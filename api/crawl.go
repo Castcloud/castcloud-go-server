@@ -1,15 +1,13 @@
 package api
 
 import (
+	"encoding/json"
 	"encoding/xml"
-	"io"
 	"net/http"
-	"runtime"
 )
 
 type crawler struct {
 	fetching chan fetchJob
-	parsing  chan parseJob
 }
 
 type fetchJob struct {
@@ -17,24 +15,13 @@ type fetchJob struct {
 	result chan *Cast
 }
 
-type parseJob struct {
-	data   io.ReadCloser
-	url    string
-	result chan *Cast
-}
-
 func newCrawler() *crawler {
 	return &crawler{
 		fetching: make(chan fetchJob, 4096),
-		parsing:  make(chan parseJob, 64),
 	}
 }
 
 func (c *crawler) start(maxConn int) {
-	for i := 0; i < runtime.NumCPU(); i++ {
-		go c.parser()
-	}
-
 	for i := 0; i < maxConn; i++ {
 		go c.fetcher()
 	}
@@ -42,13 +29,12 @@ func (c *crawler) start(maxConn int) {
 
 func (c *crawler) stop() {
 	close(c.fetching)
-	close(c.parsing)
 }
 
 func (c *crawler) fetch(url string) chan *Cast {
-	castCh := make(chan *Cast, 1)
-	c.fetching <- fetchJob{url: url, result: castCh}
-	return castCh
+	resultCh := make(chan *Cast, 1)
+	c.fetching <- fetchJob{url: url, result: resultCh}
+	return resultCh
 }
 
 func (c *crawler) fetcher() {
@@ -62,50 +48,47 @@ func (c *crawler) fetcher() {
 		resp, err := http.Get(job.url)
 		if err != nil {
 			job.result <- nil
-			return
+			continue
 		}
+		defer resp.Body.Close()
 
-		if resp.StatusCode == 200 {
-			c.parsing <- parseJob{data: resp.Body, url: job.url, result: job.result}
-		} else {
+		if resp.StatusCode != 200 {
 			job.result <- nil
-		}
-	}
-}
-
-func (c *crawler) parser() {
-	for {
-		job, ok := <-c.parsing
-		defer job.data.Close()
-		if !ok {
-			job.result <- nil
-			return
+			continue
 		}
 
-		f := feed{}
-
-		decoder := xml.NewDecoder(job.data)
+		decoder := xml.NewDecoder(resp.Body)
 		for {
-			t, _ := decoder.Token()
-			if t == nil {
+			token, _ := decoder.Token()
+			if token == nil {
 				job.result <- nil
-				return
+				break
 			}
 
-			switch se := t.(type) {
+			switch t := token.(type) {
 			case xml.StartElement:
-				if se.Name.Local == "channel" {
-					decoder.DecodeElement(&f, &se)
-					println("RSS: " + f.Title)
-					cast := &Cast{URL: job.url, Name: f.Title}
+				if t.Name.Local == "channel" {
+					feed := feedRSS{}
+					decoder.DecodeElement(&feed, &t)
+
+					cast := &Cast{URL: job.url, Name: feed.Title}
+					v, _ := json.Marshal(feed)
+					cast.Feed = (*json.RawMessage)(&v)
+
 					store.SaveCast(cast)
 					job.result <- cast
-					return
-				} else if se.Name.Local == "feed" {
-					decoder.DecodeElement(&f, &se)
-					println("Atom: " + f.Title)
-					job.result <- &Cast{URL: job.url, Name: f.Title}
-					return
+					break
+				} else if t.Name.Local == "feed" {
+					feed := feedAtom{}
+					decoder.DecodeElement(&feed, &t)
+
+					cast := &Cast{URL: job.url, Name: feed.Title}
+					v, _ := json.Marshal(feed)
+					cast.Feed = (*json.RawMessage)(&v)
+
+					store.SaveCast(cast)
+					job.result <- cast
+					break
 				}
 			}
 		}

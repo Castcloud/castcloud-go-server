@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"net/url"
 	"testing"
 
@@ -27,12 +28,7 @@ func TestGetCasts(t *testing.T) {
 
 func TestAddCast(t *testing.T) {
 	r := createRouter()
-
-	expectedJSON := testJSON(Cast{
-		ID:   1,
-		URL:  "test.go",
-		Name: "test",
-	})
+	cast := &Cast{}
 
 	// It should return an existing cast
 	req := testRequest(r, "POST", "/library/casts", nil)
@@ -41,7 +37,9 @@ func TestAddCast(t *testing.T) {
 	req.PostForm.Set("feedurl", "test.go")
 	res := req.send()
 	assert.Equal(t, 200, res.Code)
-	assert.Equal(t, expectedJSON, res.Body.String())
+	json.Unmarshal(res.Body.Bytes(), cast)
+	assert.Equal(t, "test.go", cast.URL)
+	assert.Equal(t, "test", cast.Name)
 
 	// There should still be only 1 subscription
 	user := store.GetUser("test")
@@ -57,25 +55,20 @@ func TestAddCast(t *testing.T) {
 	assert.Len(t, user.Subscriptions, 1)
 
 	// It should return a new cast
-	expectedJSON = testJSON(Cast{
-		ID:   2,
-		URL:  testServer.URL,
-		Name: "BSD Now HD",
-	})
-
-	// TODO: Use something local
-	//req.PostForm.Set("feedurl", "http://feeds.feedburner.com/BsdNowHd")
 	req.PostForm.Set("feedurl", testServer.URL)
 	res = req.send()
 	assert.Equal(t, 200, res.Code)
-	assert.Equal(t, expectedJSON, res.Body.String())
+	json.Unmarshal(res.Body.Bytes(), cast)
+	assert.Equal(t, testServer.URL, cast.URL)
+	assert.Equal(t, "BSD Now HD", cast.Name)
+	assert.NotNil(t, cast.Feed)
 
 	// There should now be 2 subscriptions
 	user = store.GetUser("test")
 	assert.Len(t, user.Subscriptions, 2)
 
 	// The new cast should be in the store
-	cast := store.GetCastByURL(testServer.URL)
+	cast = store.GetCastByURL(testServer.URL)
 	assert.NotNil(t, cast)
 	assert.Equal(t, "BSD Now HD", cast.Name)
 }

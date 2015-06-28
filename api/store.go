@@ -1,5 +1,9 @@
 package api
 
+import (
+	"encoding/json"
+)
+
 type APIStore interface {
 	Close() error
 
@@ -33,18 +37,18 @@ type Client struct {
 }
 
 type Cast struct {
-	ID   uint64 `json:"id"`
-	URL  string `json:"url"`
-	Name string `json:"name"`
-	Feed []byte `json:"feed"`
+	ID   uint64           `json:"id"`
+	URL  string           `json:"url"`
+	Name string           `json:"name"`
+	Feed *json.RawMessage `json:"feed"`
 }
 
 type Episode struct {
-	ID        uint64 `json:"id"`
-	CastID    uint64 `json:"castid"`
-	LastEvent Event  `json:"lastevent"`
-	Feed      []byte `json:"feed"`
-	CrawlTS   uint64 `json:"crawlts"`
+	ID        uint64           `json:"id"`
+	CastID    uint64           `json:"castid"`
+	LastEvent Event            `json:"lastevent"`
+	Feed      *json.RawMessage `json:"feed"`
+	CrawlTS   uint64           `json:"crawlts"`
 }
 
 type Event struct {
