@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	flag "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/pflag"
+	flag "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/pflag"
 )
 
 // Example 1: A single string flag called "species" with default value "gopher".

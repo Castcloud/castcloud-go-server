@@ -8,7 +8,7 @@ import (
 	"crypto/cipher"
 	"crypto/sha1"
 	"crypto/subtle"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/openpgp/errors"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/openpgp/errors"
 	"hash"
 	"io"
 	"strconv"

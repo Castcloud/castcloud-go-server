@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/gommon/color"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/gommon/color"
 )
 
 func Logger() echo.MiddlewareFunc {

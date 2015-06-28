@@ -9,7 +9,7 @@ import (
 	"bufio"
 	"net"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
 	"io"
 )
 

@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/armon/consul-api"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/armon/consul-api"
 )
 
 type Client struct {

@@ -4,8 +4,8 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/bcrypt"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/bcrypt"
 )
 
 type token struct {

@@ -6,7 +6,7 @@ package clearsign
 
 import (
 	"bytes"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/openpgp"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/openpgp"
 	"testing"
 )
 

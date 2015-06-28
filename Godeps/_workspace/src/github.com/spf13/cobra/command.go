@@ -18,8 +18,8 @@ package cobra
 import (
 	"bytes"
 	"fmt"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/inconshreveable/mousetrap"
-	flag "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/pflag"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/inconshreveable/mousetrap"
+	flag "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/pflag"
 	"io"
 	"os"
 	"runtime"

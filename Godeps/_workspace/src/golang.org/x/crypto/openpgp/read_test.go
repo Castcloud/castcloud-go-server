@@ -8,7 +8,7 @@ import (
 	"bytes"
 	_ "crypto/sha512"
 	"encoding/hex"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/openpgp/errors"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/openpgp/errors"
 	"io"
 	"io/ioutil"
 	"strings"

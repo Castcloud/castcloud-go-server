@@ -29,7 +29,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/bradfitz/http2/hpack"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/bradfitz/http2/hpack"
 )
 
 var stderrVerbose = flag.Bool("stderr_verbose", false, "Mirror verbosity to stderr, unbuffered")

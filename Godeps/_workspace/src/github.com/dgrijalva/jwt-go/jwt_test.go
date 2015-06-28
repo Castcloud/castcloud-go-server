@@ -2,7 +2,7 @@ package jwt_test
 
 import (
 	"fmt"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/dgrijalva/jwt-go"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"net/http"
 	"reflect"

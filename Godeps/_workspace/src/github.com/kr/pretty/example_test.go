@@ -2,7 +2,7 @@ package pretty_test
 
 import (
 	"fmt"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/kr/pretty"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/kr/pretty"
 )
 
 func Example() {

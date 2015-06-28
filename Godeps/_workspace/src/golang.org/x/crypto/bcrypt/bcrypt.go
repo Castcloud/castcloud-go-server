@@ -12,7 +12,7 @@ import (
 	"crypto/subtle"
 	"errors"
 	"fmt"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/blowfish"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/blowfish"
 	"io"
 	"strconv"
 )

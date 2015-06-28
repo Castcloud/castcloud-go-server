@@ -21,11 +21,11 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/BurntSushi/toml"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/magiconair/properties"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/cast"
-	jww "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/gopkg.in/yaml.v2"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/BurntSushi/toml"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/magiconair/properties"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cast"
+	jww "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/gopkg.in/yaml.v2"
 )
 
 func insensitiviseMap(m map[string]interface{}) {

@@ -19,7 +19,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/bradfitz/http2/hpack"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/bradfitz/http2/hpack"
 )
 
 type Transport struct {

@@ -7,7 +7,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
 )
 
 func TestSimulate_1op_1p(t *testing.T)     { testSimulate(t, 100, 1) }

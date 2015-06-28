@@ -5,7 +5,7 @@ package gopass
 import (
 	"syscall"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
 )
 
 func getch() byte {

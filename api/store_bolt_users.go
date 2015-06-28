@@ -3,8 +3,8 @@ package api
 import (
 	"encoding/json"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/boltdb/bolt"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/bcrypt"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/bcrypt"
 )
 
 func (s *BoltStore) GetUser(username string) *User {

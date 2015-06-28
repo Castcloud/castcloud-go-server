@@ -14,8 +14,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/pflag"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/pflag"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
 var yamlExample = []byte(`Hacker: true

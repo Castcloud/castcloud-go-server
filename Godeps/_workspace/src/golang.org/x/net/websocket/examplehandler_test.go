@@ -8,7 +8,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/net/websocket"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/net/websocket"
 )
 
 // Echo the data received on the WebSocket.

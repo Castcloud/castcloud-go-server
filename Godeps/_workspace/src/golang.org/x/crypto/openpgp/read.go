@@ -8,9 +8,9 @@ package openpgp
 import (
 	"crypto"
 	_ "crypto/sha256"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/openpgp/armor"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/openpgp/errors"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/openpgp/packet"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/openpgp/armor"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/openpgp/errors"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/openpgp/packet"
 	"hash"
 	"io"
 	"strconv"

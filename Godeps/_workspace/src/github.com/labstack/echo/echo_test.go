@@ -12,8 +12,8 @@ import (
 
 	"errors"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/stretchr/testify/assert"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/net/websocket"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/net/websocket"
 )
 
 type (

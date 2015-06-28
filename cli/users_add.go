@@ -3,10 +3,10 @@ package cli
 import (
 	"fmt"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/howeyc/gopass"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/howeyc/gopass"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
 
-	"github.com/khlieng/castcloud-go/api"
+	"github.com/Castcloud/castcloud-go-server/api"
 )
 
 var usersAddCmd = &cobra.Command{

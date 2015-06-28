@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
 	"github.com/codegangsta/cli"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/boltdb/bolt"
 )
 
 var branch, commit string

@@ -6,12 +6,12 @@ import (
 	"os"
 	"path"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/mitchellh/go-homedir"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/cobra"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/viper"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/mitchellh/go-homedir"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/viper"
 
-	"github.com/khlieng/castcloud-go/api"
-	"github.com/khlieng/castcloud-go/assets"
+	"github.com/Castcloud/castcloud-go-server/api"
+	"github.com/Castcloud/castcloud-go-server/assets"
 )
 
 var (

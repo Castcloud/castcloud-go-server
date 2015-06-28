@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
 )
 
 // Keys retrieves a list of keys for a given bucket.

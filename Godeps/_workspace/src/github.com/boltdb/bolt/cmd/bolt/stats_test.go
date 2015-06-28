@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/boltdb/bolt"
-	. "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/boltdb/bolt/cmd/bolt"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
+	. "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt/cmd/bolt"
 )
 
 func TestStats(t *testing.T) {

@@ -7,8 +7,8 @@ package packet
 import (
 	"crypto/rsa"
 	"encoding/binary"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/openpgp/elgamal"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/openpgp/errors"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/openpgp/elgamal"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/openpgp/errors"
 	"io"
 	"math/big"
 	"strconv"

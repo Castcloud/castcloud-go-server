@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"encoding/base64"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/dgrijalva/jwt-go"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/dgrijalva/jwt-go"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
 	"net/http"
 )
 

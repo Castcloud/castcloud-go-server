@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/gopkg.in/yaml.v2"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/gopkg.in/yaml.v2"
 	. "gopkg.in/check.v1"
 	"net"
 	"os"

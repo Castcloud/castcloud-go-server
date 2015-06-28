@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend/mock"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend/mock"
 )
 
 var pubring = `-----BEGIN PGP PUBLIC KEY BLOCK-----

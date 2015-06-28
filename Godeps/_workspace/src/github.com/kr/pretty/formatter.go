@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"text/tabwriter"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/kr/text"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/kr/text"
 )
 
 const (

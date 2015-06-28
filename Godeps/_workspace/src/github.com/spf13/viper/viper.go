@@ -30,12 +30,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/kr/pretty"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/mitchellh/mapstructure"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/cast"
-	jww "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/pflag"
-	crypt "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/config"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/kr/pretty"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/mitchellh/mapstructure"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cast"
+	jww "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/pflag"
+	crypt "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/config"
 )
 
 var v *Viper

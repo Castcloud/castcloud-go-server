@@ -5,10 +5,10 @@ import (
 	"io"
 	"io/ioutil"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend/consul"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend/etcd"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/encoding/secconf"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend/consul"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend/etcd"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/encoding/secconf"
 )
 
 type KVPair struct {

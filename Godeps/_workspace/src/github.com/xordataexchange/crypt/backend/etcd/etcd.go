@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend"
 
-	goetcd "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/coreos/go-etcd/etcd"
+	goetcd "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/coreos/go-etcd/etcd"
 )
 
 type Client struct {

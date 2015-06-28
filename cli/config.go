@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"path"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
 )
 
 var (

@@ -4,7 +4,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
 )
 
 // Pages prints a list of all pages in a database.

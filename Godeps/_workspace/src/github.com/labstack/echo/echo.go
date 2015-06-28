@@ -15,9 +15,9 @@ import (
 
 	"path/filepath"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/bradfitz/http2"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/mattn/go-colorable"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/net/websocket"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/bradfitz/http2"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/mattn/go-colorable"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/net/websocket"
 )
 
 type (

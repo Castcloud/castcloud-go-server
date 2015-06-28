@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xordataexchange/crypt/backend"
 )
 
 var mockedStore map[string][]byte

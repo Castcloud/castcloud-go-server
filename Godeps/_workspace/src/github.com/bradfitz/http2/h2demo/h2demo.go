@@ -31,7 +31,7 @@ import (
 
 	"camlistore.org/pkg/googlestorage"
 	"camlistore.org/pkg/singleflight"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/bradfitz/http2"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/bradfitz/http2"
 )
 
 var (

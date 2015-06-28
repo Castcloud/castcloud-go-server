@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	jww "github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
+	jww "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
 )
 
 func ToTimeE(i interface{}) (tim time.Time, err error) {

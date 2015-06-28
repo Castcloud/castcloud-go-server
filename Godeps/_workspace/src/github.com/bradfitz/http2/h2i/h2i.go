@@ -36,9 +36,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/bradfitz/http2"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/bradfitz/http2/hpack"
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/bradfitz/http2"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/bradfitz/http2/hpack"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
 )
 
 // Flags

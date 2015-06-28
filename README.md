@@ -1,0 +1,2 @@
+# castcloud-go-server
+[![Build Status](https://travis-ci.org/Castcloud/castcloud-go-server.svg?branch=master)](https://travis-ci.org/Castcloud/castcloud-go-server) [![Coverage Status](https://coveralls.io/repos/Castcloud/castcloud-go-server/badge.svg)](https://coveralls.io/r/Castcloud/castcloud-go-server)

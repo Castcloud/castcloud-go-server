@@ -5,7 +5,7 @@ import (
 
 	"runtime"
 
-	"github.com/khlieng/castcloud-go/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
 )
 
 // Recover returns a middleware which recovers from panics anywhere in the chain
