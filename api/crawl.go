@@ -148,7 +148,7 @@ func (c *crawler) save(job saveJob) bool {
 		eps[i].CastID = cast.ID
 		eps[i].GUID = extractGUID(ep, format)
 		eps[i].CrawlTS = ts
-		feed, _ = json.Marshal(ep)
+		feed, _ := json.Marshal(ep)
 		eps[i].Feed = (*json.RawMessage)(&feed)
 	}
 
