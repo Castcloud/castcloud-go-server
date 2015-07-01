@@ -8,11 +8,15 @@ import (
 )
 
 var (
-	boltBucketUsers         = []byte("users")
-	boltBucketUsernameIndex = []byte("index_username")
-	boltBucketTokenIndex    = []byte("index_token")
-	boltBucketCasts         = []byte("casts")
-	boltBucketCastURLIndex  = []byte("index_cast_url")
+	boltBucketUsers               = []byte("users")
+	boltBucketUsernameIndex       = []byte("index_username")
+	boltBucketTokenIndex          = []byte("index_token")
+	boltBucketCasts               = []byte("casts")
+	boltBucketCastURLIndex        = []byte("index_cast_url")
+	boltBucketEpisodes            = []byte("episodes")
+	boltBucketEpisodeCastIDIndex  = []byte("index_episode_castid")
+	boltBucketEpisodeGUIDIndex    = []byte("index_episode_guid")
+	boltBucketEpisodeCrawlTSIndex = []byte("index_episode_crawlts")
 
 	ErrUsernameUnavailable  = errors.New("Username already in use")
 	ErrUserNotFound         = errors.New("User does not exist")
@@ -31,19 +35,18 @@ func NewBoltStore(path string) (*BoltStore, error) {
 		return nil, err
 	}
 
-	err = db.Update(func(tx *bolt.Tx) error {
-		_, err := tx.CreateBucketIfNotExists(boltBucketUsers)
-		_, err = tx.CreateBucketIfNotExists(boltBucketUsernameIndex)
-		_, err = tx.CreateBucketIfNotExists(boltBucketTokenIndex)
-		_, err = tx.CreateBucketIfNotExists(boltBucketCasts)
-		_, err = tx.CreateBucketIfNotExists(boltBucketCastURLIndex)
-		return err
+	db.Update(func(tx *bolt.Tx) error {
+		tx.CreateBucketIfNotExists(boltBucketUsers)
+		tx.CreateBucketIfNotExists(boltBucketUsernameIndex)
+		tx.CreateBucketIfNotExists(boltBucketTokenIndex)
+		tx.CreateBucketIfNotExists(boltBucketCasts)
+		tx.CreateBucketIfNotExists(boltBucketCastURLIndex)
+		tx.CreateBucketIfNotExists(boltBucketEpisodes)
+		tx.CreateBucketIfNotExists(boltBucketEpisodeCastIDIndex)
+		tx.CreateBucketIfNotExists(boltBucketEpisodeGUIDIndex)
+		tx.CreateBucketIfNotExists(boltBucketEpisodeCrawlTSIndex)
+		return nil
 	})
-
-	if err != nil {
-		db.Close()
-		return nil, err
-	}
 
 	return &BoltStore{
 		db: db,

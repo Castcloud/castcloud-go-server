@@ -1,9 +1,9 @@
 package api
 
-type feedRSS struct {
-	Title       string `xml:"title" json:"title"`
-	Description string `xml:"description" json:"description"`
-	Link        string `xml:"link" json:"link"`
+type feed struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Link        string `json:"link"`
 }
 
 type feedAtom struct {

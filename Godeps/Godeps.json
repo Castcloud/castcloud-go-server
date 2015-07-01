@@ -34,12 +34,20 @@
 			"Rev": "2e53eb673c4450614e3bca6f345197f9527dce71"
 		},
 		{
+			"ImportPath": "github.com/fatih/structs",
+			"Rev": "a9f7daa9c2729e97450c2da2feda19130a367d8f"
+		},
+		{
 			"ImportPath": "github.com/howeyc/gopass",
 			"Rev": "2c70fa70727c953c51695f800f25d6b44abb368e"
 		},
 		{
 			"ImportPath": "github.com/inconshreveable/mousetrap",
 			"Rev": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
+		},
+		{
+			"ImportPath": "github.com/khlieng/mxj",
+			"Rev": "de91dc4645b608f07e1b44255658f3b3501b8208"
 		},
 		{
 			"ImportPath": "github.com/kr/pretty",

@@ -48,9 +48,8 @@ func Serve() {
 		Name:  "Castcloud",
 	})
 
-	r := createRouter()
 	log.Println("API listening on port", config.Port)
-	r.Run(":" + strconv.Itoa(config.Port))
+	createRouter().Run(":" + strconv.Itoa(config.Port))
 }
 
 func openStore(p string) {

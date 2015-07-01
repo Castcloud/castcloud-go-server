@@ -20,6 +20,10 @@ type APIStore interface {
 	GetCasts(ids []uint64) []Cast
 	GetCastByURL(url string) *Cast
 	SaveCast(cast *Cast) error
+
+	GetEpisode(id uint64) *Episode
+	SaveEpisode(episode *Episode) error
+	SaveEpisodes(episodes []Episode) error
 }
 
 type User struct {
@@ -46,9 +50,10 @@ type Cast struct {
 type Episode struct {
 	ID        uint64           `json:"id"`
 	CastID    uint64           `json:"castid"`
+	GUID      string           `json:"guid"`
 	LastEvent Event            `json:"lastevent"`
 	Feed      *json.RawMessage `json:"feed"`
-	CrawlTS   uint64           `json:"crawlts"`
+	CrawlTS   int64            `json:"crawlts"`
 }
 
 type Event struct {
