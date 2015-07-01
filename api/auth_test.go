@@ -31,3 +31,18 @@ func TestAuth(t *testing.T) {
 	c.Request().URL.Path = "/account/login"
 	assert.Nil(t, mw(c))
 }
+
+func BenchmarkAuth(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		store.GetUserByToken("token")
+	}
+}
+
+func BenchmarkAuthCache(b *testing.B) {
+	cache := newMemAuthCache()
+	cache.set("token", store.GetUserByToken("token"))
+
+	for i := 0; i < b.N; i++ {
+		cache.get("token")
+	}
+}

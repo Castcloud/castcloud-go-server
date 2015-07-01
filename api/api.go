@@ -10,9 +10,10 @@ import (
 )
 
 var (
-	store  APIStore
-	crawl  *crawler
-	config *Config
+	store     APIStore
+	authCache *memAuthCache
+	crawl     *crawler
+	config    *Config
 )
 
 type Config struct {
@@ -34,6 +35,7 @@ func Configure(cfg *Config) {
 
 func Serve() {
 	openStore(path.Join(config.Dir, "store"))
+	authCache = newMemAuthCache()
 
 	crawl = newCrawler()
 	crawl.start(config.MaxDownloadConnections)

@@ -64,3 +64,13 @@ func TestCreateToken(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Len(t, token, 64)
 }
+
+func BenchmarkPing(b *testing.B) {
+	r := createRouter()
+	req := testRequest(r, "GET", "/account/ping", nil)
+	req.Header.Set("Authorization", "token")
+
+	for i := 0; i < b.N; i++ {
+		req.send()
+	}
+}

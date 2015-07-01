@@ -23,6 +23,7 @@ func TestMain(m *testing.M) {
 	defer os.Remove(storePath)
 
 	openStore(storePath)
+	authCache = newMemAuthCache()
 	initTestData()
 	defer store.Close()
 
