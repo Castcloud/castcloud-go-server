@@ -1,6 +1,9 @@
 package api
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
 )
 
@@ -15,4 +18,9 @@ func formContains(c *echo.Context, keys ...string) bool {
 		}
 	}
 	return true
+}
+
+func md5Hash(str string) string {
+	hash := md5.Sum([]byte(str))
+	return hex.EncodeToString(hash[:])
 }

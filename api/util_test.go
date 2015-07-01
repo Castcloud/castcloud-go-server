@@ -1,6 +1,7 @@
 package api
 
 import (
+	"crypto/md5"
 	"net/http"
 	"testing"
 
@@ -16,4 +17,8 @@ func TestFormContains(t *testing.T) {
 	c.Request().PostForm.Set("a", "val")
 	c.Request().PostForm.Set("b", "val")
 	assert.True(t, formContains(c, "a", "b"))
+}
+
+func TestMD5(t *testing.T) {
+	assert.Len(t, md5Hash("stuff"), md5.Size*2)
 }

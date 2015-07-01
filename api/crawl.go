@@ -146,7 +146,16 @@ func (c *crawler) save(job saveJob) bool {
 	for i := range episodes {
 		ep := episodes[i].(map[string]interface{})
 		eps[i].CastID = cast.ID
-		eps[i].GUID = extractGUID(ep, format)
+
+		guid := extractGUID(ep, format)
+		if guid == "" {
+			title, ok := ep["title"].(string)
+			if ok {
+				guid = md5Hash(cast.URL + title)
+			}
+		}
+
+		eps[i].GUID = guid
 		eps[i].CrawlTS = ts
 		feed, _ := json.Marshal(ep)
 		eps[i].Feed = (*json.RawMessage)(&feed)

@@ -142,7 +142,10 @@ var testFeed = []byte(`<?xml version="1.0" encoding="UTF-8"?>
             <itunes:explicit>no</itunes:explicit>
             <itunes:duration>1:15:36</itunes:duration>
             <media:thumbnail url="http://www.jupiterbroadcasting.com/wp-content/uploads/2015/06/bsd-0095-v.jpg" />
-        <author>BSD, FreeBSD, PCBSD, PC-BSD, OpenBSD, NetBSD, DragonFlyBSD, FreeNAS, pfSense, Interview, Tutorial, ZFS, UFS (Jupiter Broadcasting)</author><media:content url="http://www.podtrac.com/pts/redirect.mp4/201406.jb-dl.cdn.scaleengine.net/bsdnow/2015/bsd-0095.mp4" fileSize="510856278" type="video/mp4" /></item><item><guid>DD438D40-D5A1-4D08-974F-0B3FAF6BDF9C</guid></item><copyright>Copyright Jupiter Broadcasting</copyright><media:credit role="author">Jupiter Broadcasting</media:credit><media:rating>nonadult</media:rating><media:description type="plain">Everything you wanted to know about BSD</media:description></channel>
+        <author>BSD, FreeBSD, PCBSD, PC-BSD, OpenBSD, NetBSD, DragonFlyBSD, FreeNAS, pfSense, Interview, Tutorial, ZFS, UFS (Jupiter Broadcasting)</author><media:content url="http://www.podtrac.com/pts/redirect.mp4/201406.jb-dl.cdn.scaleengine.net/bsdnow/2015/bsd-0095.mp4" fileSize="510856278" type="video/mp4" /></item>
+        <item><guid>DD438D40-D5A1-4D08-974F-0B3FAF6BDF9C</guid></item>
+        <item><title>Where dat GUID at?</title></item>
+        <copyright>Copyright Jupiter Broadcasting</copyright><media:credit role="author">Jupiter Broadcasting</media:credit><media:rating>nonadult</media:rating><media:description type="plain">Everything you wanted to know about BSD</media:description></channel>
 </rss>`)
 
 var atomTestFeed = []byte(`<?xml version="1.0" encoding="utf-8"?>
