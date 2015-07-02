@@ -6,16 +6,16 @@ import (
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
-func TestGetEpisode(t *testing.T) {
+func TestStoreGetEpisode(t *testing.T) {
 	episode := store.GetEpisode(1)
 	assert.NotNil(t, episode)
 	assert.Equal(t, uint64(1), episode.CastID)
 	assert.Equal(t, "guid", episode.GUID)
 }
 
-func TestSaveEpisode(t *testing.T) {
+func TestStoreSaveEpisode(t *testing.T) {
 	episode := &Episode{
-		CastID: 1,
+		CastID: 10,
 		GUID:   "guid",
 	}
 
@@ -36,7 +36,7 @@ func TestSaveEpisode(t *testing.T) {
 	episodes := []Episode{}
 	episodes = append(episodes, *episode)
 	episodes = append(episodes, Episode{
-		CastID: 1,
+		CastID: 10,
 		GUID:   "another_one",
 	})
 

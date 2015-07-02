@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	"strconv"
 
@@ -22,6 +23,27 @@ func (s *BoltStore) GetEpisode(id uint64) *Episode {
 	})
 
 	return episode
+}
+
+func (s *BoltStore) GetEpisodesByCast(castid uint64) []Episode {
+	episodes := []Episode{}
+
+	s.db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket(boltBucketEpisodes)
+		c := tx.Bucket(boltBucketEpisodeCastIDIndex).Cursor()
+		prefix := []byte(strconv.FormatUint(castid, 10))
+
+		for key, id := c.Seek(prefix); bytes.HasPrefix(key, prefix); key, id = c.Next() {
+			v := b.Get(id)
+			episode := Episode{}
+			json.Unmarshal(v, &episode)
+			episodes = append(episodes, episode)
+		}
+
+		return nil
+	})
+
+	return episodes
 }
 
 func (s *BoltStore) SaveEpisode(episode *Episode) error {

@@ -22,6 +22,7 @@ type APIStore interface {
 	SaveCast(cast *Cast) error
 
 	GetEpisode(id uint64) *Episode
+	GetEpisodesByCast(castid uint64) []Episode
 	SaveEpisode(episode *Episode) error
 	SaveEpisodes(episodes []Episode) error
 }
