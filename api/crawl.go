@@ -116,19 +116,24 @@ func (c *crawler) save(job saveJob) bool {
 	if job.xml.Exists("rss.channel") {
 		format = feedFormatRSS
 		name, err = job.xml.ValueForPathString("rss.channel.title")
-		castFeed, err = job.xml.ValueForPath("rss.channel")
-		episodes, err = job.xml.ValuesForPath("rss.channel.item")
+		if err != nil {
+			return false
+		}
+
+		castFeed, _ = job.xml.ValueForPath("rss.channel")
+		episodes, _ = job.xml.ValuesForPath("rss.channel.item")
 		job.xml.Remove("rss.channel.item")
 	} else if job.xml.Exists("feed") {
 		format = feedFormatAtom
 		name, err = job.xml.ValueForPathString("feed.title")
-		castFeed, err = job.xml.ValueForPath("feed")
-		episodes, err = job.xml.ValuesForPath("feed.entry")
+		if err != nil {
+			return false
+		}
+
+		castFeed, _ = job.xml.ValueForPath("feed")
+		episodes, _ = job.xml.ValuesForPath("feed.entry")
 		job.xml.Remove("feed.entry")
 	} else {
-		return false
-	}
-	if err != nil {
 		return false
 	}
 

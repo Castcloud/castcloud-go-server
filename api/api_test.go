@@ -71,6 +71,18 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 	case "/notxml":
 		w.Write([]byte("What is this stuff?"))
 
+	case "/notfeed":
+		w.Write([]byte(`<?xml version="1.0" encoding="UTF-8"?>
+			<cake><pie taste="so_gewd"></pie></cake>`))
+
+	case "/badrss":
+		w.Write([]byte(`<?xml version="1.0" encoding="UTF-8"?>
+			<rss><channel></channel></rss>`))
+
+	case "/badatom":
+		w.Write([]byte(`<?xml version="1.0" encoding="UTF-8"?>
+			<feed></feed>`))
+
 	default:
 		w.WriteHeader(404)
 	}

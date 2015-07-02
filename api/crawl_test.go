@@ -14,16 +14,18 @@ func TestCrawlFetch(t *testing.T) {
 	assert.Equal(t, "BSD Now HD", cast.Name)
 
 	// It should return nil if the url is bad
-	cast = <-crawl.fetch("so_bad")
-	assert.Nil(t, cast)
+	assert.Nil(t, <-crawl.fetch("so_bad"))
 
 	// It should return nil if the the status is not 200
-	cast = <-crawl.fetch(testServer.URL)
-	assert.Nil(t, cast)
+	assert.Nil(t, <-crawl.fetch(testServer.URL))
 
 	// It should return nil if it cant parse things
-	cast = <-crawl.fetch(testServer.URL + "/notxml")
-	assert.Nil(t, cast)
+	assert.Nil(t, <-crawl.fetch(testServer.URL+"/notxml"))
+
+	// It should return nil if the xml is not a proper feed
+	assert.Nil(t, <-crawl.fetch(testServer.URL+"/notfeed"))
+	assert.Nil(t, <-crawl.fetch(testServer.URL+"/badrss"))
+	assert.Nil(t, <-crawl.fetch(testServer.URL+"/badatom"))
 }
 
 func TestCrawlFetchAtom(t *testing.T) {
