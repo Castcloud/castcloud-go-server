@@ -108,6 +108,7 @@ func (c *crawler) download(job fetchJob) bool {
 func (c *crawler) save(job saveJob) bool {
 	var err error
 	var name string
+	var castFeed interface{}
 	var episodes []interface{}
 	var format int
 	ts := time.Now().Unix()
@@ -115,11 +116,13 @@ func (c *crawler) save(job saveJob) bool {
 	if job.xml.Exists("rss.channel") {
 		format = feedFormatRSS
 		name, err = job.xml.ValueForPathString("rss.channel.title")
+		castFeed, err = job.xml.ValueForPath("rss.channel")
 		episodes, err = job.xml.ValuesForPath("rss.channel.item")
 		job.xml.Remove("rss.channel.item")
 	} else if job.xml.Exists("feed") {
 		format = feedFormatAtom
 		name, err = job.xml.ValueForPathString("feed.title")
+		castFeed, err = job.xml.ValueForPath("feed")
 		episodes, err = job.xml.ValuesForPath("feed.entry")
 		job.xml.Remove("feed.entry")
 	} else {
@@ -129,7 +132,7 @@ func (c *crawler) save(job saveJob) bool {
 		return false
 	}
 
-	feed, err := job.xml.Json()
+	feed, err := json.Marshal(castFeed)
 	if err != nil {
 		return false
 	}
