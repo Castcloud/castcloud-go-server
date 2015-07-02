@@ -28,10 +28,12 @@ func addCast(c *echo.Context) error {
 		}
 	}
 
-	err := store.AddSubscription(user.ID, cast.ID)
+	user, err := store.AddSubscription(user.ID, cast.ID)
 	if err != nil && err != ErrSubscriptionExists {
 		return err
 	}
+
+	authCache.set(c.Get("token").(string), user)
 
 	return c.JSON(200, cast)
 }
@@ -67,5 +69,7 @@ func removeCast(c *echo.Context) error {
 	}
 
 	user := c.Get("user").(*User)
-	return store.RemoveSubscription(user.ID, id)
+	user, err = store.RemoveSubscription(user.ID, id)
+	authCache.set(c.Get("token").(string), user)
+	return err
 }

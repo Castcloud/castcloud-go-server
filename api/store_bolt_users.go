@@ -155,8 +155,10 @@ func (s *BoltStore) AddClient(userid uint64, client *Client) error {
 	})
 }
 
-func (s *BoltStore) AddSubscription(userid, castid uint64) error {
-	return s.db.Update(func(tx *bolt.Tx) error {
+func (s *BoltStore) AddSubscription(userid, castid uint64) (*User, error) {
+	var user *User
+
+	err := s.db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(boltBucketCasts)
 		id := uint64Bytes(castid)
 		v := b.Get(id)
@@ -171,8 +173,8 @@ func (s *BoltStore) AddSubscription(userid, castid uint64) error {
 			return ErrUserNotFound
 		}
 
-		var user User
-		json.Unmarshal(v, &user)
+		user = &User{}
+		json.Unmarshal(v, user)
 
 		for _, subid := range user.Subscriptions {
 			if castid == subid {
@@ -189,10 +191,14 @@ func (s *BoltStore) AddSubscription(userid, castid uint64) error {
 
 		return b.Put(id, v)
 	})
+
+	return user, err
 }
 
-func (s *BoltStore) RemoveSubscription(userid, castid uint64) error {
-	return s.db.Update(func(tx *bolt.Tx) error {
+func (s *BoltStore) RemoveSubscription(userid, castid uint64) (*User, error) {
+	var user *User
+
+	err := s.db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(boltBucketCasts)
 		id := uint64Bytes(castid)
 		v := b.Get(id)
@@ -207,8 +213,8 @@ func (s *BoltStore) RemoveSubscription(userid, castid uint64) error {
 			return ErrUserNotFound
 		}
 
-		var user User
-		json.Unmarshal(v, &user)
+		user = &User{}
+		json.Unmarshal(v, user)
 
 		for i, subid := range user.Subscriptions {
 			if castid == subid {
@@ -225,4 +231,6 @@ func (s *BoltStore) RemoveSubscription(userid, castid uint64) error {
 
 		return ErrSubsctiptionNotFound
 	})
+
+	return user, err
 }

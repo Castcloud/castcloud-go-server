@@ -17,6 +17,7 @@ func auth() echo.HandlerFunc {
 			user := authCache.get(token)
 			if user != nil {
 				c.Set("user", user)
+				c.Set("token", token)
 				return nil
 			}
 
@@ -27,6 +28,7 @@ func auth() echo.HandlerFunc {
 
 			authCache.set(token, user)
 			c.Set("user", user)
+			c.Set("token", token)
 		}
 
 		return nil

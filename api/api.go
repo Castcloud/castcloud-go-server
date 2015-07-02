@@ -40,15 +40,17 @@ func Serve() {
 	crawl = newCrawler()
 	crawl.start(config.MaxDownloadConnections)
 
-	store.AddUser(&User{
-		Username: "test",
-		Password: "pass",
-	})
-	store.AddClient(1, &Client{
-		Token: "token",
-		UUID:  "real_unique",
-		Name:  "Castcloud",
-	})
+	if user := store.GetUser("test"); user == nil {
+		store.AddUser(&User{
+			Username: "test",
+			Password: "pass",
+		})
+		store.AddClient(1, &Client{
+			Token: "token",
+			UUID:  "real_unique",
+			Name:  "Castcloud",
+		})
+	}
 
 	log.Println("API listening on port", config.Port)
 	createRouter().Run(":" + strconv.Itoa(config.Port))
