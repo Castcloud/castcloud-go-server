@@ -59,6 +59,6 @@ func (s *BoltStore) Close() error {
 
 func uint64Bytes(i uint64) []byte {
 	b := make([]byte, 8)
-	binary.LittleEndian.PutUint64(b, i)
+	binary.BigEndian.PutUint64(b, i)
 	return b
 }

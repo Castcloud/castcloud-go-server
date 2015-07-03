@@ -69,7 +69,7 @@ func (s *BoltStore) SaveCast(cast *Cast) error {
 
 		idxID := index.Get(url)
 		if idxID != nil {
-			cast.ID = binary.LittleEndian.Uint64(idxID)
+			cast.ID = binary.BigEndian.Uint64(idxID)
 		} else if cast.ID == 0 {
 			cast.ID, err = b.NextSequence()
 			if err != nil {
