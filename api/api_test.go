@@ -56,6 +56,16 @@ func initTestData() {
 		CastID: 1,
 		GUID:   "guid",
 	})
+	store.SaveEpisode(&Episode{
+		CastID:  69,
+		GUID:    "since1",
+		CrawlTS: 32503680000,
+	})
+	store.SaveEpisode(&Episode{
+		CastID:  69,
+		GUID:    "since2",
+		CrawlTS: 32503680001,
+	})
 	store.AddSubscription(1, 1)
 }
 

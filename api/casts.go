@@ -44,7 +44,7 @@ func addCast(c *echo.Context) error {
 func renameCast(c *echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
-		return err
+		return c.NoContent(400)
 	}
 
 	cast := store.GetCast(id)
@@ -65,7 +65,7 @@ func renameCast(c *echo.Context) error {
 func removeCast(c *echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
-		return err
+		return c.NoContent(400)
 	}
 
 	user := c.Get("user").(*User)

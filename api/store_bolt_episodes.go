@@ -46,6 +46,27 @@ func (s *BoltStore) GetEpisodesByCast(castid uint64) []Episode {
 	return episodes
 }
 
+func (s *BoltStore) GetEpisodesSince(ts int64) []Episode {
+	episodes := []Episode{}
+
+	s.db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket(boltBucketEpisodes)
+		c := tx.Bucket(boltBucketEpisodeCrawlTSIndex).Cursor()
+		prefix := []byte(strconv.FormatInt(ts+1, 10))
+
+		for _, id := c.Seek(prefix); id != nil; _, id = c.Next() {
+			v := b.Get(id)
+			episode := Episode{}
+			json.Unmarshal(v, &episode)
+			episodes = append(episodes, episode)
+		}
+
+		return nil
+	})
+
+	return episodes
+}
+
 func (s *BoltStore) SaveEpisode(episode *Episode) error {
 	return s.db.Update(func(tx *bolt.Tx) error {
 		return s.saveEpisode(tx, episode)
