@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func TestGetCasts(t *testing.T) {
@@ -71,6 +73,7 @@ func TestAddCast(t *testing.T) {
 	cast = store.GetCastByURL(testRSS)
 	assert.NotNil(t, cast)
 	assert.Equal(t, "BSD Now HD", cast.Name)
+	assert.NotNil(t, cast.Feed)
 }
 
 func TestRenameCast(t *testing.T) {

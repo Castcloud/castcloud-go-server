@@ -2,9 +2,10 @@ package api
 
 import (
 	"encoding/binary"
-	"encoding/json"
 
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
+
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func (s *BoltStore) GetCast(id uint64) *Cast {
@@ -16,7 +17,8 @@ func (s *BoltStore) GetCast(id uint64) *Cast {
 		v := b.Get(id)
 		if v != nil {
 			cast = &Cast{}
-			json.Unmarshal(v, cast)
+			cast.UnmarshalMsg(v)
+			cast.DecodeFeed()
 		}
 
 		return nil
@@ -33,7 +35,8 @@ func (s *BoltStore) GetCasts(ids []uint64) []Cast {
 		b := tx.Bucket(boltBucketCasts)
 
 		for i := 0; i < len(ids); i++ {
-			err = json.Unmarshal(b.Get(uint64Bytes(ids[i])), &casts[i])
+			_, err = (&casts[i]).UnmarshalMsg(b.Get(uint64Bytes(ids[i])))
+			casts[i].DecodeFeed()
 		}
 
 		return err
@@ -54,7 +57,9 @@ func (s *BoltStore) GetCastByURL(url string) *Cast {
 
 		b := tx.Bucket(boltBucketCasts)
 		cast = &Cast{}
-		return json.Unmarshal(b.Get(id), cast)
+		cast.UnmarshalMsg(b.Get(id))
+		cast.DecodeFeed()
+		return nil
 	})
 
 	return cast
@@ -77,7 +82,8 @@ func (s *BoltStore) SaveCast(cast *Cast) error {
 			}
 		}
 
-		v, err := json.Marshal(cast)
+		cast.EncodeFeed()
+		v, err := cast.MarshalMsg(nil)
 		if err != nil {
 			return err
 		}

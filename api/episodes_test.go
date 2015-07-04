@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func TestGetNewEpisodes(t *testing.T) {
@@ -17,26 +19,20 @@ func TestGetNewEpisodes(t *testing.T) {
 	res := checkNewEpisodes(t, req)
 	assert.Len(t, res.Episodes, 2)
 	assert.Equal(t, Episode{
-		ID:      2,
-		CastID:  69,
-		GUID:    "since1",
-		CrawlTS: 32503680000,
+		ID:     2,
+		CastID: 69,
 	}, res.Episodes[0])
 	assert.Equal(t, Episode{
-		ID:      3,
-		CastID:  69,
-		GUID:    "since2",
-		CrawlTS: 32503680001,
+		ID:     3,
+		CastID: 69,
 	}, res.Episodes[1])
 
 	req.URL, _ = url.Parse("/library/newepisodes?since=32503680000")
 	res = checkNewEpisodes(t, req)
 	assert.Len(t, res.Episodes, 1)
 	assert.Equal(t, Episode{
-		ID:      3,
-		CastID:  69,
-		GUID:    "since2",
-		CrawlTS: 32503680001,
+		ID:     3,
+		CastID: 69,
 	}, res.Episodes[0])
 
 	req.URL, _ = url.Parse("/library/newepisodes?since=32503680001")
@@ -70,7 +66,6 @@ func TestGetEpisodes(t *testing.T) {
 		Episode{
 			ID:     1,
 			CastID: 1,
-			GUID:   "guid",
 		},
 	})
 
@@ -98,7 +93,6 @@ func TestGetEpisode(t *testing.T) {
 	expectedJSON := testJSON(Episode{
 		ID:     1,
 		CastID: 1,
-		GUID:   "guid",
 	})
 
 	req := testRequest(r, "GET", "/library/episode/1", nil)

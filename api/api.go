@@ -7,6 +7,8 @@ import (
 
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
 	mw "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo/middleware"
+
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 var (

@@ -1,7 +1,7 @@
 package api
 
 import (
-	"encoding/json"
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 type APIStore interface {
@@ -26,37 +26,4 @@ type APIStore interface {
 	GetEpisodesSince(ts int64) []Episode
 	SaveEpisode(episode *Episode) error
 	SaveEpisodes(episodes []Episode) error
-}
-
-type User struct {
-	ID            uint64
-	Username      string
-	Password      string
-	Clients       []*Client
-	Subscriptions []uint64
-}
-
-type Client struct {
-	Token string
-	UUID  string
-	Name  string
-}
-
-type Cast struct {
-	ID   uint64           `json:"id"`
-	URL  string           `json:"url"`
-	Name string           `json:"name"`
-	Feed *json.RawMessage `json:"feed"`
-}
-
-type Episode struct {
-	ID        uint64           `json:"id"`
-	CastID    uint64           `json:"castid"`
-	GUID      string           `json:"guid"`
-	LastEvent Event            `json:"lastevent"`
-	Feed      *json.RawMessage `json:"feed"`
-	CrawlTS   int64            `json:"crawlts"`
-}
-
-type Event struct {
 }

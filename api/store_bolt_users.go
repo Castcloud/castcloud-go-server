@@ -1,10 +1,10 @@
 package api
 
 import (
-	"encoding/json"
-
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/bcrypt"
+
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func (s *BoltStore) GetUser(username string) *User {
@@ -21,7 +21,7 @@ func (s *BoltStore) GetUser(username string) *User {
 		v := b.Get(id)
 		if v != nil {
 			user = &User{}
-			json.Unmarshal(v, user)
+			user.UnmarshalMsg(v)
 		}
 
 		return nil
@@ -32,14 +32,14 @@ func (s *BoltStore) GetUser(username string) *User {
 
 func (s *BoltStore) GetUsers() []User {
 	users := []User{}
-	user := User{}
+	user := &User{}
 
 	s.db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(boltBucketUsers)
 
 		return b.ForEach(func(k, v []byte) error {
-			json.Unmarshal(v, &user)
-			users = append(users, user)
+			user.UnmarshalMsg(v)
+			users = append(users, *user)
 			return nil
 		})
 	})
@@ -59,7 +59,8 @@ func (s *BoltStore) GetUserByToken(token string) *User {
 
 		b := tx.Bucket(boltBucketUsers)
 		user = &User{}
-		return json.Unmarshal(b.Get(id), user)
+		user.UnmarshalMsg(b.Get(id))
+		return nil
 	})
 
 	return user
@@ -96,7 +97,7 @@ func (s *BoltStore) AddUser(user *User) error {
 			return err
 		}
 
-		v, err := json.Marshal(user)
+		v, err := user.MarshalMsg(nil)
 		if err != nil {
 			return err
 		}
@@ -135,12 +136,12 @@ func (s *BoltStore) AddClient(userid uint64, client *Client) error {
 			return ErrUserNotFound
 		}
 
-		var user User
-		json.Unmarshal(v, &user)
+		user := &User{}
+		user.UnmarshalMsg(v)
 
 		user.Clients = append(user.Clients, client)
 
-		v, err := json.Marshal(user)
+		v, err := user.MarshalMsg(nil)
 		if err != nil {
 			return err
 		}
@@ -174,7 +175,7 @@ func (s *BoltStore) AddSubscription(userid, castid uint64) (*User, error) {
 		}
 
 		user = &User{}
-		json.Unmarshal(v, user)
+		user.UnmarshalMsg(v)
 
 		for _, subid := range user.Subscriptions {
 			if castid == subid {
@@ -184,7 +185,7 @@ func (s *BoltStore) AddSubscription(userid, castid uint64) (*User, error) {
 
 		user.Subscriptions = append(user.Subscriptions, castid)
 
-		v, err := json.Marshal(user)
+		v, err := user.MarshalMsg(nil)
 		if err != nil {
 			return err
 		}
@@ -214,13 +215,13 @@ func (s *BoltStore) RemoveSubscription(userid, castid uint64) (*User, error) {
 		}
 
 		user = &User{}
-		json.Unmarshal(v, user)
+		user.UnmarshalMsg(v)
 
 		for i, subid := range user.Subscriptions {
 			if castid == subid {
 				user.Subscriptions = append(user.Subscriptions[:i], user.Subscriptions[i+1:]...)
 
-				v, err := json.Marshal(user)
+				v, err := user.MarshalMsg(nil)
 				if err != nil {
 					return err
 				}

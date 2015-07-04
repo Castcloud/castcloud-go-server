@@ -7,6 +7,8 @@ import (
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
 
 	"github.com/Castcloud/castcloud-go-server/api"
+
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 var usersAddCmd = &cobra.Command{
@@ -19,7 +21,7 @@ var usersAddCmd = &cobra.Command{
 			return
 		}
 
-		user = &api.User{
+		user = &User{
 			Username: args[0],
 			Password: getPassword(),
 		}

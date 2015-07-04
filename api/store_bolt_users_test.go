@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func TestGetUsers(t *testing.T) {

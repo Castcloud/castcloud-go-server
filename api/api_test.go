@@ -12,6 +12,8 @@ import (
 	"testing"
 
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
+
+	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 var testServer *httptest.Server
