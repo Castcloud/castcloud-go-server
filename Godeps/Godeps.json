@@ -86,6 +86,10 @@
 			"Rev": "f7d28d5aeab42b9b95d2e6d6b956f73a290077fc"
 		},
 		{
+			"ImportPath": "github.com/philhofer/fwd",
+			"Rev": "899e4efba8eaa1fea74175308f3fae18ff3319fa"
+		},
+		{
 			"ImportPath": "github.com/spf13/cast",
 			"Rev": "4d07383ffe94b5e5a6fa3af9211374a4507a0184"
 		},
@@ -109,6 +113,11 @@
 			"ImportPath": "github.com/stretchr/testify/assert",
 			"Comment": "v1.0-12-g7e4a149",
 			"Rev": "7e4a149930b09fe4c2b134c50ce637457ba6e966"
+		},
+		{
+			"ImportPath": "github.com/tinylib/msgp/msgp",
+			"Comment": "v1.0-alpha-13-g2db3cc7",
+			"Rev": "2db3cc759d9ba98e1fefa9983399bfb6eeb28a17"
 		},
 		{
 			"ImportPath": "github.com/xordataexchange/crypt/backend",

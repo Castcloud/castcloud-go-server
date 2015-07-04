@@ -5,7 +5,7 @@ package schema
 // DO NOT EDIT
 
 import (
-	"github.com/tinylib/msgp/msgp"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/tinylib/msgp/msgp"
 )
 
 // DecodeMsg implements msgp.Decodable

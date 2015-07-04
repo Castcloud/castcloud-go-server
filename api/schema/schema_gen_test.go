@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/tinylib/msgp/msgp"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/tinylib/msgp/msgp"
 )
 
 func TestMarshalUnmarshalClient(t *testing.T) {
