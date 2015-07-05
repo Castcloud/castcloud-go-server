@@ -15,6 +15,11 @@ var usersAddCmd = &cobra.Command{
 	Use:   "add <username>",
 	Short: "Add new user",
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			fmt.Println("Usage: users add <username>")
+			return
+		}
+
 		user := api.Store().GetUser(args[0])
 		if user != nil {
 			fmt.Println("Username already in use")
