@@ -11,8 +11,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
-
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
@@ -101,21 +99,21 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 type testReq struct {
-	r *echo.Echo
+	h http.Handler
 	*http.Request
 }
 
-func testRequest(r *echo.Echo, method, url string, body io.Reader) testReq {
+func testRequest(h http.Handler, method, url string, body io.Reader) testReq {
 	req, _ := http.NewRequest(method, url, body)
 	if method == "POST" {
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
-	return testReq{r: r, Request: req}
+	return testReq{h: h, Request: req}
 }
 
 func (t testReq) send() *httptest.ResponseRecorder {
 	w := httptest.NewRecorder()
-	t.r.ServeHTTP(w, t.Request)
+	t.h.ServeHTTP(w, t.Request)
 	return w
 }
 
