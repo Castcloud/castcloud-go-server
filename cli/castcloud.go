@@ -41,9 +41,10 @@ func init() {
 		viper.ReadInConfig()
 
 		api.Configure(&api.Config{
-			Port:  viper.GetInt("port"),
-			Debug: viper.GetBool("debug"),
-			Dir:   dir,
+			Port:                   viper.GetInt("port"),
+			Debug:                  viper.GetBool("debug"),
+			Dir:                    dir,
+			CrawlInterval:          viper.GetDuration("crawl.interval"),
 			MaxDownloadConnections: viper.GetInt("crawl.max_conn"),
 		})
 	})
@@ -72,6 +73,7 @@ func bindFlags() {
 }
 
 func setDefaults() {
+	viper.SetDefault("crawl.interval", "15m")
 	viper.SetDefault("crawl.max_conn", 128)
 }
 

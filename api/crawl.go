@@ -16,8 +16,10 @@ const (
 )
 
 type crawler struct {
+	interval time.Duration
 	fetching chan fetchJob
 	saving   chan saveJob
+	quit     chan struct{}
 }
 
 type fetchJob struct {
@@ -31,10 +33,12 @@ type saveJob struct {
 	result chan *Cast
 }
 
-func newCrawler() *crawler {
+func newCrawler(interval time.Duration) *crawler {
 	return &crawler{
+		interval: interval,
 		fetching: make(chan fetchJob, 4096),
 		saving:   make(chan saveJob, 256),
+		quit:     make(chan struct{}),
 	}
 }
 
@@ -46,9 +50,12 @@ func (c *crawler) start(maxConn int) {
 	for i := 0; i < 64; i++ {
 		go c.saver()
 	}
+
+	go c.run()
 }
 
 func (c *crawler) stop() {
+	close(c.quit)
 	close(c.fetching)
 	close(c.saving)
 }
@@ -57,6 +64,27 @@ func (c *crawler) fetch(url string) chan *Cast {
 	resultCh := make(chan *Cast, 1)
 	c.fetching <- fetchJob{url: url, result: resultCh}
 	return resultCh
+}
+
+func (c *crawler) run() {
+	tick := time.Tick(c.interval)
+
+	c.crawlCasts()
+	for {
+		select {
+		case <-c.quit:
+			return
+
+		case <-tick:
+			c.crawlCasts()
+		}
+	}
+}
+
+func (c *crawler) crawlCasts() {
+	for _, cast := range store.GetCasts() {
+		c.fetch(cast.URL)
+	}
 }
 
 func (c *crawler) fetcher() {

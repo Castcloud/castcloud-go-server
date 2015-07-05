@@ -27,7 +27,24 @@ func (s *BoltStore) GetCast(id uint64) *Cast {
 	return cast
 }
 
-func (s *BoltStore) GetCasts(ids []uint64) []Cast {
+func (s *BoltStore) GetCasts() []Cast {
+	casts := []Cast{}
+	cast := &Cast{}
+
+	s.db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket(boltBucketCasts)
+
+		return b.ForEach(func(k, v []byte) error {
+			cast.UnmarshalMsg(v)
+			casts = append(casts, *cast)
+			return nil
+		})
+	})
+
+	return casts
+}
+
+func (s *BoltStore) GetCastsByID(ids []uint64) []Cast {
 	casts := make([]Cast, len(ids))
 
 	s.db.View(func(tx *bolt.Tx) error {

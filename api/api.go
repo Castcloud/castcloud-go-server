@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"path"
 	"strconv"
+	"time"
 
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
 	mw "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo/middleware"
@@ -24,6 +25,7 @@ type Config struct {
 	Dir   string
 	Debug bool
 
+	CrawlInterval          time.Duration
 	MaxDownloadConnections int
 }
 
@@ -40,7 +42,7 @@ func Serve() {
 	openStore(path.Join(config.Dir, "store"))
 	authCache = newMemAuthCache()
 
-	crawl = newCrawler()
+	crawl = newCrawler(config.CrawlInterval)
 	crawl.start(config.MaxDownloadConnections)
 
 	if user := store.GetUser("test"); user == nil {

@@ -13,7 +13,7 @@ import (
 //
 func getCasts(c *echo.Context) error {
 	user := c.Get("user").(*User)
-	return c.JSON(200, store.GetCasts(user.Subscriptions))
+	return c.JSON(200, store.GetCastsByID(user.Subscriptions))
 }
 
 //

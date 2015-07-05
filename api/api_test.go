@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"testing"
+	"time"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -32,7 +33,7 @@ func TestMain(m *testing.M) {
 	testRSS = testServer.URL + "/rss"
 	testAtom = testServer.URL + "/atom"
 
-	crawl = newCrawler()
+	crawl = newCrawler(time.Hour)
 	crawl.start(4)
 
 	os.Exit(m.Run())

@@ -17,7 +17,8 @@ type APIStore interface {
 	RemoveSubscription(userid, castid uint64) (*User, error)
 
 	GetCast(id uint64) *Cast
-	GetCasts(ids []uint64) []Cast
+	GetCasts() []Cast
+	GetCastsByID(ids []uint64) []Cast
 	GetCastByURL(url string) *Cast
 	SaveCast(cast *Cast) error
 

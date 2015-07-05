@@ -1,5 +1,7 @@
 port = 3000
 
 [crawl]
+# How often feeds should be fetched
+interval = "15m"
 # Maximum number of connections to use when fetching feeds
 max_conn = 128
