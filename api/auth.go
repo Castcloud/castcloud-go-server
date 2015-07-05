@@ -13,7 +13,7 @@ func auth() echo.HandlerFunc {
 		if c.Request().URL.Path != "/account/login" {
 			token := c.Request().Header.Get("Authorization")
 			if token == "" {
-				return echo.NewHTTPError(401)
+				return echo.NewHTTPError(401, "Bad token")
 			}
 
 			user := authCache.get(token)
@@ -25,7 +25,7 @@ func auth() echo.HandlerFunc {
 
 			user = store.GetUserByToken(token)
 			if user == nil {
-				return echo.NewHTTPError(401)
+				return echo.NewHTTPError(401, "Bad token")
 			}
 
 			authCache.set(token, user)

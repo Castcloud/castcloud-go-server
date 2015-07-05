@@ -2,6 +2,7 @@ package api
 
 import (
 	"log"
+	"net/http"
 	"path"
 	"strconv"
 
@@ -71,11 +72,13 @@ func openStore(p string) {
 func createRouter() *echo.Echo {
 	r := echo.New()
 
+	r.SetHTTPErrorHandler(errorHandler)
+
 	r.Use(mw.Logger())
 	r.Use(mw.Recover())
+	r.Use(cors())
 	r.Use(mw.StripTrailingSlash())
 	r.Use(auth())
-	r.Use(mw.Gzip())
 
 	account := r.Group("/account")
 	account.Post("/login", login)
@@ -115,4 +118,16 @@ func createRouter() *echo.Echo {
 	opml.Post("/casts.opml")*/
 
 	return r
+}
+
+func errorHandler(err error, c *echo.Context) {
+	code := http.StatusInternalServerError
+	msg := http.StatusText(code)
+	if he, ok := err.(*echo.HTTPError); ok {
+		code = he.Code()
+		msg = he.Error()
+	}
+	c.Response().Header().Set("Content-Type", "text/plain; charset=utf-8")
+	c.Response().WriteHeader(code)
+	c.Response().Write([]byte(msg))
 }
