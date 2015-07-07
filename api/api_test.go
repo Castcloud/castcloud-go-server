@@ -49,6 +49,11 @@ func initTestData() {
 		UUID:  "real_unique",
 		Name:  "Castcloud",
 	})
+	store.AddClient(1, &Client{
+		Token: "evtest1",
+		UUID:  "evtestuuid1",
+		Name:  "Castcloud",
+	})
 	store.SaveCast(&Cast{
 		URL:  "test.go",
 		Name: "test",
@@ -68,6 +73,17 @@ func initTestData() {
 		CrawlTS: 32503680001,
 	})
 	store.AddSubscription(1, 1)
+	store.AddEvents([]Event{
+		Event{
+			Type:              30,
+			EpisodeID:         10,
+			PositionTS:        911,
+			ClientTS:          10,
+			ConcurrentOrder:   0,
+			ClientName:        "Castcloud",
+			ClientDescription: "oink",
+		},
+	}, 1, "evtestuuid1")
 }
 
 func testHandler(w http.ResponseWriter, r *http.Request) {

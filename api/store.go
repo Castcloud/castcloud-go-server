@@ -27,4 +27,7 @@ type APIStore interface {
 	GetEpisodesSince(ts int64) []Episode
 	SaveEpisode(episode *Episode) error
 	SaveEpisodes(episodes []Episode) error
+
+	GetEvents(userid, since uint64, excludeUUID string) []Event
+	AddEvents(events []Event, userid uint64, clientUUID string) error
 }

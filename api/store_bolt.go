@@ -17,6 +17,7 @@ var (
 	boltBucketEpisodeCastIDIndex  = []byte("index_episode_castid")
 	boltBucketEpisodeGUIDIndex    = []byte("index_episode_guid")
 	boltBucketEpisodeCrawlTSIndex = []byte("index_episode_crawlts")
+	boltBucketEvents              = []byte("events")
 
 	ErrUsernameUnavailable  = errors.New("Username already in use")
 	ErrUserNotFound         = errors.New("User does not exist")
@@ -45,6 +46,7 @@ func NewBoltStore(path string) (*BoltStore, error) {
 		tx.CreateBucketIfNotExists(boltBucketEpisodeCastIDIndex)
 		tx.CreateBucketIfNotExists(boltBucketEpisodeGUIDIndex)
 		tx.CreateBucketIfNotExists(boltBucketEpisodeCrawlTSIndex)
+		tx.CreateBucketIfNotExists(boltBucketEvents)
 		return nil
 	})
 

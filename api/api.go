@@ -105,11 +105,11 @@ func createRouter() *echo.Echo {
 	episodes.Get("/episode/:id", getEpisode)
 	episodes.Get("/episodes/label/:label", getEpisodesByLabel)
 
-	/*events := r.Group("/library/events")
-	events.Get("")
-	events.Post("")
+	events := r.Group("/library/events")
+	events.Get("", getEvents)
+	events.Post("", addEvents)
 
-	labels := r.Group("/library/labels")
+	/*labels := r.Group("/library/labels")
 	labels.Get("")
 	labels.Post("")
 	labels.Put("/:id")

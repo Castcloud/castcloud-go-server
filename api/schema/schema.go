@@ -39,7 +39,23 @@ type Episode struct {
 }
 
 type Event struct {
-	ID uint64
+	Type              int    `json:"type"`
+	EpisodeID         uint64 `json:"episodeid"`
+	PositionTS        int    `json:"positionts"`
+	ClientTS          uint64 `json:"clientts"`
+	ConcurrentOrder   int    `json:"concurrentorder"`
+	ClientName        string `json:"clientname"`
+	ClientDescription string `json:"clientdescription"`
+	ClientUUID        string `json:"-"`
+}
+
+func (u *User) UUID(token string) string {
+	for _, client := range u.Clients {
+		if client.Token == token {
+			return client.UUID
+		}
+	}
+	return ""
 }
 
 func (c *Cast) EncodeFeed() {
