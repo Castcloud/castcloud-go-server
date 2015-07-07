@@ -28,24 +28,24 @@ func TestEvents(t *testing.T) {
 			ClientName:        "Castcloud",
 			ClientDescription: "oink",
 		},
-	}, 1, "evuuid1")
+	}, 2, "evuuid1")
 	assert.Nil(t, err)
 
-	events := store.GetEvents(1, 100, "")
+	events := store.GetEvents(2, 100, "")
 	assert.Len(t, events, 0)
 
-	events = store.GetEvents(1, 99, "")
+	events = store.GetEvents(2, 99, "")
 	assert.Len(t, events, 1)
 	assert.Equal(t, 10, events[0].Type)
 	assert.Equal(t, 134, events[0].PositionTS)
 
-	events = store.GetEvents(1, 99, "evuuid1")
+	events = store.GetEvents(2, 99, "evuuid1")
 	assert.Len(t, events, 0)
 
-	events = store.GetEvents(1, 99, "nope")
+	events = store.GetEvents(2, 99, "nope")
 	assert.Len(t, events, 1)
 
-	events = store.GetEvents(1, 25, "")
+	events = store.GetEvents(2, 25, "")
 	assert.Len(t, events, 2)
 	assert.Equal(t, 112, events[0].PositionTS)
 }

@@ -60,12 +60,17 @@ func TestAddEvents(t *testing.T) {
 		Event{
 			Type:              30,
 			EpisodeID:         10,
-			PositionTS:        911,
-			ClientTS:          10,
+			PositionTS:        481,
+			ClientTS:          11,
 			ConcurrentOrder:   0,
 			ClientName:        "Castcloud",
 			ClientDescription: "oink",
 		},
 	}))
 	assert.Equal(t, 200, req.send().Code)
+
+	// There should now be 2 events
+	req.Method = "GET"
+	res := checkEvents(t, req)
+	assert.Len(t, res.Events, 2)
 }
