@@ -86,14 +86,16 @@ func TestRenameCast(t *testing.T) {
 	res := req.send()
 	assert.Equal(t, 200, res.Code)
 	assert.Equal(t, "new", store.GetCast(1).Name)
+	res = req.send()
+	assert.Equal(t, 200, res.Code)
 
 	// It should return 400 if the ID is invalid
 	req.URL.Path = "/library/casts/nope"
 	assert.Equal(t, 400, req.send().Code)
 
-	// It returns 200 if the cast is not found
+	// It returns 404 if the cast is not found
 	req.URL.Path = "/library/casts/1337"
-	assert.Equal(t, 200, req.send().Code)
+	assert.Equal(t, 404, req.send().Code)
 }
 
 func TestRemoveCast(t *testing.T) {

@@ -50,12 +50,14 @@ func renameCast(c *echo.Context) error {
 	}
 
 	cast := store.GetCast(id)
-	if cast != nil {
-		prev := cast.Name
-		cast.Name = form(c, "name")
-		if cast.Name != prev {
-			return store.SaveCast(cast)
-		}
+	if cast == nil {
+		return c.String(404, "Cast not found")
+	}
+
+	prev := cast.Name
+	cast.Name = form(c, "name")
+	if cast.Name != prev {
+		return store.SaveCast(cast)
 	}
 
 	return nil
