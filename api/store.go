@@ -30,4 +30,9 @@ type APIStore interface {
 
 	GetEvents(userid, since uint64, excludeUUID string) []Event
 	AddEvents(events []Event, userid uint64, clientUUID string) error
+
+	GetLabel(id uint64) *Label
+	GetLabels(userid uint64) []Label
+	SaveLabel(label *Label, userid uint64) error
+	RemoveLabel(id, userid uint64) error
 }

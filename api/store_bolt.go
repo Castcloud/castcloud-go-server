@@ -18,12 +18,17 @@ var (
 	boltBucketEpisodeGUIDIndex    = []byte("index_episode_guid")
 	boltBucketEpisodeCrawlTSIndex = []byte("index_episode_crawlts")
 	boltBucketEvents              = []byte("events")
+	boltBucketLabels              = []byte("labels")
+	boltBucketLabelUserIDIndex    = []byte("index_label_userid")
+	boltBucketLabelNameIndex      = []byte("index_label_name")
+	boltBucketLabelRootIndex      = []byte("index_label_root")
 
 	ErrUsernameUnavailable  = errors.New("Username already in use")
 	ErrUserNotFound         = errors.New("User does not exist")
 	ErrSubscriptionExists   = errors.New("Subscription already exists")
 	ErrSubsctiptionNotFound = errors.New("Subscription does not exist")
 	ErrCastNotFound         = errors.New("Cast does not exist")
+	ErrLabelExists          = errors.New("Label already exists")
 )
 
 type BoltStore struct {
@@ -47,6 +52,10 @@ func NewBoltStore(path string) (*BoltStore, error) {
 		tx.CreateBucketIfNotExists(boltBucketEpisodeGUIDIndex)
 		tx.CreateBucketIfNotExists(boltBucketEpisodeCrawlTSIndex)
 		tx.CreateBucketIfNotExists(boltBucketEvents)
+		tx.CreateBucketIfNotExists(boltBucketLabels)
+		tx.CreateBucketIfNotExists(boltBucketLabelUserIDIndex)
+		tx.CreateBucketIfNotExists(boltBucketLabelNameIndex)
+		tx.CreateBucketIfNotExists(boltBucketLabelRootIndex)
 		return nil
 	})
 

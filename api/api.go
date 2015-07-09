@@ -109,13 +109,13 @@ func createRouter() *echo.Echo {
 	events.Get("", getEvents)
 	events.Post("", addEvents)
 
-	/*labels := r.Group("/library/labels")
-	labels.Get("")
-	labels.Post("")
-	labels.Put("/:id")
-	labels.Delete("/:id")
+	labels := r.Group("/library/labels")
+	labels.Get("", getLabels)
+	labels.Post("", addLabel)
+	labels.Put("/:id", updateLabel)
+	labels.Delete("/:id", removeLabel)
 
-	opml := r.Group("/library")
+	/*opml := r.Group("/library")
 	opml.Get("/casts.opml")
 	opml.Post("/casts.opml")*/
 

@@ -190,6 +190,8 @@ func (s *BoltStore) AddSubscription(userid, castid uint64) (*User, error) {
 			return err
 		}
 
+		s.addToRootLabel(tx, "cast", castid, id)
+
 		return b.Put(id, v)
 	})
 
@@ -225,6 +227,8 @@ func (s *BoltStore) RemoveSubscription(userid, castid uint64) (*User, error) {
 				if err != nil {
 					return err
 				}
+
+				s.removeFromRootLabel(tx, "cast", castid, id)
 
 				return b.Put(id, v)
 			}

@@ -49,6 +49,14 @@ type Event struct {
 	ClientUUID        string `json:"-"`
 }
 
+type Label struct {
+	ID       uint64 `json:"id"`
+	Name     string `json:"name"`
+	Content  string `json:"content"`
+	Expanded bool   `json:"expanded"`
+	Root     bool   `json:"root"`
+}
+
 func (u *User) UUID(token string) string {
 	for _, client := range u.Clients {
 		if client.Token == token {
