@@ -85,10 +85,10 @@ func createRouter() *echo.Echo {
 	account := r.Group("/account")
 	account.Post("/login", login)
 	account.Get("/ping", ping)
-	/*account.Get("/settings")
-	account.Post("/settings")
-	account.Delete("/settings/:id")
-	account.Get("/takeout")*/
+	account.Get("/settings", getSettings)
+	account.Post("/settings", setSettings)
+	account.Delete("/settings/:id", removeSetting)
+	//account.Get("/takeout")
 
 	casts := r.Group("/library/casts")
 	casts.Get("", getCasts)
@@ -96,9 +96,6 @@ func createRouter() *echo.Echo {
 	casts.Put("/:id", renameCast)
 	casts.Delete("/:id", removeCast)
 
-	// Perhaps:
-	// /newepisodes           -> /episodes?since=0
-	// /episodes/label/:label -> /episodes?label=label
 	episodes := r.Group("/library")
 	episodes.Get("/newepisodes", getNewEpisodes)
 	episodes.Get("/episodes/:castid", getEpisodes)
@@ -118,6 +115,10 @@ func createRouter() *echo.Echo {
 	/*opml := r.Group("/library")
 	opml.Get("/casts.opml")
 	opml.Post("/casts.opml")*/
+
+	// Perhaps:
+	// /newepisodes           -> /episodes?since=0
+	// /episodes/label/:label -> /episodes?label=label
 
 	return r
 }

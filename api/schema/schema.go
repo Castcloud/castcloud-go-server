@@ -20,6 +20,14 @@ type Client struct {
 	Name  string
 }
 
+type Setting struct {
+	ID             uint64 `json:"settingid"`
+	Name           string `json:"setting"`
+	Value          string `json:"value"`
+	ClientSpecific bool   `json:"clientspecific"`
+	ClientUUID     string `json:"-"`
+}
+
 type Cast struct {
 	ID       uint64           `json:"id"`
 	URL      string           `json:"url"`

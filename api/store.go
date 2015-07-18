@@ -16,6 +16,10 @@ type APIStore interface {
 	AddSubscription(userid, castid uint64) (*User, error)
 	RemoveSubscription(userid, castid uint64) (*User, error)
 
+	GetSettings(userid uint64, clientUUID string) []Setting
+	SaveSettings(settings []Setting, userid uint64, clientUUID string) error
+	RemoveSetting(id, userid uint64) error
+
 	GetCast(id uint64) *Cast
 	GetCasts() []Cast
 	GetCastsByID(ids []uint64) []Cast
