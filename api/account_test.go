@@ -96,12 +96,7 @@ func TestSetSettings(t *testing.T) {
 	assert.Equal(t, 200, req.send().Code)
 
 	// It should have added the setting
-	req.Method = "GET"
-	res := req.send()
-	assert.Equal(t, 200, res.Code)
-	settings := []Setting{}
-	err := json.Unmarshal(res.Body.Bytes(), &settings)
-	assert.Nil(t, err)
+	settings := checkSettings(t, req)
 	assert.Contains(t, settings, Setting{
 		ID:    1,
 		Name:  "test",
@@ -119,12 +114,7 @@ func TestSetSettings(t *testing.T) {
 	assert.Equal(t, 200, req.send().Code)
 
 	// It should have updated the setting
-	req.Method = "GET"
-	res = req.send()
-	assert.Equal(t, 200, res.Code)
-	settings = []Setting{}
-	err = json.Unmarshal(res.Body.Bytes(), &settings)
-	assert.Nil(t, err)
+	settings = checkSettings(t, req)
 	assert.Contains(t, settings, Setting{
 		ID:    1,
 		Name:  "test",
@@ -144,12 +134,7 @@ func TestSetSettings(t *testing.T) {
 
 	// It should have updated the setting and should not return the
 	// old non-specific version of it
-	req.Method = "GET"
-	res = req.send()
-	assert.Equal(t, 200, res.Code)
-	settings = []Setting{}
-	err = json.Unmarshal(res.Body.Bytes(), &settings)
-	assert.Nil(t, err)
+	settings = checkSettings(t, req)
 	assert.Contains(t, settings, Setting{
 		ID:             2,
 		Name:           "test",
@@ -161,6 +146,31 @@ func TestSetSettings(t *testing.T) {
 		Name:  "test",
 		Value: "b",
 	})
+
+	// It should return the old non-specific setting to other clients
+	req.Header.Set("Authorization", "evtest1")
+	settings = checkSettings(t, req)
+	assert.Contains(t, settings, Setting{
+		ID:    1,
+		Name:  "test",
+		Value: "b",
+	})
+	assert.NotContains(t, settings, Setting{
+		ID:             2,
+		Name:           "test",
+		Value:          "c",
+		ClientSpecific: true,
+	})
+}
+
+func checkSettings(t *testing.T, req testReq) []Setting {
+	req.Method = "GET"
+	res := req.send()
+	assert.Equal(t, 200, res.Code)
+	settings := []Setting{}
+	err := json.Unmarshal(res.Body.Bytes(), &settings)
+	assert.Nil(t, err)
+	return settings
 }
 
 func TestRemoveSetting(t *testing.T) {
