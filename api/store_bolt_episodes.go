@@ -49,7 +49,7 @@ func (s *BoltStore) GetEpisodesByCast(castid uint64) []Episode {
 	return episodes
 }
 
-func (s *BoltStore) GetEpisodesSince(ts int64) []Episode {
+func (s *BoltStore) GetEpisodesSince(ts int64, castids []uint64) []Episode {
 	episodes := []Episode{}
 
 	s.db.View(func(tx *bolt.Tx) error {
@@ -57,12 +57,19 @@ func (s *BoltStore) GetEpisodesSince(ts int64) []Episode {
 		c := tx.Bucket(boltBucketEpisodeCrawlTSIndex).Cursor()
 		min := uint64Bytes(uint64(ts) + 1)
 
-		for _, id := c.Seek(min); id != nil; _, id = c.Next() {
-			v := b.Get(id)
-			episode := &Episode{}
-			episode.UnmarshalMsg(v)
-			episode.DecodeFeed()
-			episodes = append(episodes, *episode)
+		for idxID, id := c.Seek(min); id != nil; idxID, id = c.Next() {
+			castid := binary.BigEndian.Uint64(idxID[16:])
+
+			for _, i := range castids {
+				if i == castid {
+					v := b.Get(id)
+					episode := &Episode{}
+					episode.UnmarshalMsg(v)
+					episode.DecodeFeed()
+					episodes = append(episodes, *episode)
+					break
+				}
+			}
 		}
 
 		return nil
@@ -128,9 +135,10 @@ func (s *BoltStore) saveEpisode(tx *bolt.Tx, ep *Episode) error {
 	}
 
 	crawlTSIndex := tx.Bucket(boltBucketEpisodeCrawlTSIndex)
-	idxID = make([]byte, 16)
+	idxID = make([]byte, 24)
 	binary.BigEndian.PutUint64(idxID[:8], uint64(ep.CrawlTS))
-	binary.BigEndian.PutUint64(idxID[8:], ep.ID)
+	binary.BigEndian.PutUint64(idxID[8:16], ep.ID)
+	binary.BigEndian.PutUint64(idxID[16:], ep.CastID)
 	err = crawlTSIndex.Put(idxID, id)
 	if err != nil {
 		return err

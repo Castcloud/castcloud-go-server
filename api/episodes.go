@@ -19,11 +19,12 @@ type newEpisodes struct {
 //
 func getNewEpisodes(c *echo.Context) error {
 	now := time.Now().Unix()
+	user := c.Get("user").(*User)
 	since := c.Request().URL.Query().Get("since")
 	if since == "" {
 		return c.JSON(200, newEpisodes{
 			Timestamp: now,
-			Episodes:  store.GetEpisodesSince(0),
+			Episodes:  store.GetEpisodesSince(0, user.Subscriptions),
 		})
 	}
 
@@ -34,7 +35,7 @@ func getNewEpisodes(c *echo.Context) error {
 
 	return c.JSON(200, newEpisodes{
 		Timestamp: now,
-		Episodes:  store.GetEpisodesSince(ts),
+		Episodes:  store.GetEpisodesSince(ts, user.Subscriptions),
 	})
 }
 

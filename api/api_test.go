@@ -58,6 +58,11 @@ func initTestData() {
 		URL:  "test.go",
 		Name: "test",
 	})
+	store.SaveCast(&Cast{
+		ID:   69,
+		URL:  "stuff.com",
+		Name: "a",
+	})
 	store.SaveEpisode(&Episode{
 		CastID: 1,
 		GUID:   "guid",
@@ -72,7 +77,13 @@ func initTestData() {
 		GUID:    "since2",
 		CrawlTS: 32503680001,
 	})
+	store.SaveEpisode(&Episode{
+		CastID:  70,
+		GUID:    "mmm",
+		CrawlTS: 32503680002,
+	})
 	store.AddSubscription(1, 1)
+	store.AddSubscription(1, 69)
 	store.AddEvents([]Event{
 		Event{
 			Type:              30,

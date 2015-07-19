@@ -19,6 +19,11 @@ func TestGetCasts(t *testing.T) {
 			URL:  "test.go",
 			Name: "test",
 		},
+		Cast{
+			ID:   69,
+			URL:  "stuff.com",
+			Name: "a",
+		},
 	})
 
 	req := testRequest(r, "GET", "/library/casts", nil)
@@ -43,18 +48,18 @@ func TestAddCast(t *testing.T) {
 	assert.Equal(t, "test.go", cast.URL)
 	assert.Equal(t, "test", cast.Name)
 
-	// There should still be only 1 subscription
+	// There should still be only 2 subscriptions
 	user := store.GetUser("test")
-	assert.Len(t, user.Subscriptions, 1)
+	assert.Len(t, user.Subscriptions, 2)
 
 	// It should return 500 when the crawling fails
 	req.PostForm.Set("feedurl", "dat_url")
 	res = req.send()
 	assert.Equal(t, 500, res.Code)
 
-	// There should still be only 1 subscription
+	// There should still be only 2 subscriptions
 	user = store.GetUser("test")
-	assert.Len(t, user.Subscriptions, 1)
+	assert.Len(t, user.Subscriptions, 2)
 
 	// It should return a new cast
 	req.PostForm.Set("feedurl", testRSS)
@@ -65,9 +70,9 @@ func TestAddCast(t *testing.T) {
 	assert.Equal(t, "BSD Now HD", cast.Name)
 	assert.NotNil(t, cast.Feed)
 
-	// There should now be 2 subscriptions
+	// There should now be 3 subscriptions
 	user = store.GetUser("test")
-	assert.Len(t, user.Subscriptions, 2)
+	assert.Len(t, user.Subscriptions, 3)
 
 	// The new cast should be in the store
 	cast = store.GetCastByURL(testRSS)

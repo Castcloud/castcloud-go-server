@@ -28,7 +28,7 @@ type APIStore interface {
 
 	GetEpisode(id uint64) *Episode
 	GetEpisodesByCast(castid uint64) []Episode
-	GetEpisodesSince(ts int64) []Episode
+	GetEpisodesSince(ts int64, castids []uint64) []Episode
 	SaveEpisode(episode *Episode) error
 	SaveEpisodes(episodes []Episode) error
 
