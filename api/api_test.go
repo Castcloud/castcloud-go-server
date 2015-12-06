@@ -140,6 +140,7 @@ func testRequest(h http.Handler, method, url string, body io.Reader) testReq {
 }
 
 func (t testReq) send() *httptest.ResponseRecorder {
+	t.Form = t.PostForm
 	w := httptest.NewRecorder()
 	t.h.ServeHTTP(w, t.Request)
 	return w
@@ -172,13 +173,13 @@ var testFeed = []byte(`<?xml version="1.0" encoding="UTF-8"?>
         <language>en</language>
         <pubDate>Thu, 25 Jun 2015 13:15:16 -0700</pubDate>
         <lastBuildDate>Thu, 25 Jun 2015 13:15:16 -0700</lastBuildDate>
-        
+
         <itunes:author>Jupiter Broadcasting</itunes:author>
         <itunes:image href="http://www.jupiterbroadcasting.com/images/bsdnow-badge.jpg" />
         <itunes:explicit>no</itunes:explicit>
-        
+
         <itunes:block>no</itunes:block>
-        
+
         <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="http://feeds.feedburner.com/BsdNowHd" /><feedburner:info xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" uri="bsdnowhd" /><atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="hub" href="http://pubsubhubbub.appspot.com/" /><media:copyright>Copyright Jupiter Broadcasting</media:copyright><media:thumbnail url="http://www.jupiterbroadcasting.com/images/bsdnow-badge.jpg" /><media:category scheme="http://www.itunes.com/dtds/podcast-1.0.dtd">Technology/Software How-To</media:category><media:category scheme="http://www.itunes.com/dtds/podcast-1.0.dtd">Technology/Tech News</media:category><itunes:owner><itunes:email>BSD, FreeBSD, PCBSD, PC-BSD, OpenBSD, NetBSD, DragonFlyBSD, FreeNAS, pfSense, Interview, Tutorial, ZFS, UFS</itunes:email><itunes:name>Jupiter Broadcasting</itunes:name></itunes:owner><itunes:subtitle>Everything you wanted to know about BSD</itunes:subtitle><itunes:summary>A weekly show covering the latest developments in the world of the BSD family of operating systems. News, Tutorials and Interviews for new users and long time developers alike.</itunes:summary><itunes:category text="Technology"><itunes:category text="Software How-To" /></itunes:category><itunes:category text="Technology"><itunes:category text="Tech News" /></itunes:category><item>
             <title>Bitrot Group Therapy | BSD Now 95</title>
             <link>http://www.jupiterbroadcasting.com/84272/bitrot-group-therapy-bsd-now-95/</link>
@@ -208,8 +209,8 @@ var atomTestFeed = []byte(`<?xml version="1.0" encoding="utf-8"?>
 	<link href="http://example.org/" />
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
 	<updated>2003-12-13T18:30:02Z</updated>
-	
-	
+
+
 	<entry>
 		<title>Atom-Powered Robots Run Amok</title>
 		<link href="http://example.org/2003/12/13/atom03" />

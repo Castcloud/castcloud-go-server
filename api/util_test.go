@@ -14,8 +14,8 @@ func TestFormContains(t *testing.T) {
 	c := echo.NewContext(req, echo.NewResponse(nil), echo.New())
 	assert.False(t, formContains(c, "a", "b"))
 
-	c.Request().PostForm.Set("a", "val")
-	c.Request().PostForm.Set("b", "val")
+	c.Request().Form.Set("a", "val")
+	c.Request().Form.Set("b", "val")
 	assert.True(t, formContains(c, "a", "b"))
 }
 

@@ -8,7 +8,7 @@ import (
 )
 
 func form(c *echo.Context, key string) string {
-	return c.Request().PostFormValue(key)
+	return c.Request().FormValue(key)
 }
 
 func formContains(c *echo.Context, keys ...string) bool {
