@@ -10,7 +10,7 @@ import (
 	"path"
 
 	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
-	"github.com/xenolf/lego/acme"
+	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/xenolf/lego/acme"
 )
 
 const caURL = "https://acme-v01.api.letsencrypt.org/directory"

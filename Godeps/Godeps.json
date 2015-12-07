@@ -1,6 +1,6 @@
 {
 	"ImportPath": "github.com/Castcloud/castcloud-go-server",
-	"GoVersion": "go1.4.2",
+	"GoVersion": "go1.5.2",
 	"Packages": [
 		"./..."
 	],
@@ -114,6 +114,10 @@
 			"Rev": "d62d4bb4c68a773c3b5f4e72844913a2d5de0de0"
 		},
 		{
+			"ImportPath": "github.com/square/go-jose",
+			"Rev": "37934a899dd03635373fd1e143936d32cfe48d31"
+		},
+		{
 			"ImportPath": "github.com/stretchr/testify/assert",
 			"Comment": "v1.0-12-g7e4a149",
 			"Rev": "7e4a149930b09fe4c2b134c50ce637457ba6e966"
@@ -122,6 +126,11 @@
 			"ImportPath": "github.com/tinylib/msgp/msgp",
 			"Comment": "v1.0-alpha-13-g2db3cc7",
 			"Rev": "2db3cc759d9ba98e1fefa9983399bfb6eeb28a17"
+		},
+		{
+			"ImportPath": "github.com/xenolf/lego/acme",
+			"Comment": "v0.1.0-11-g1b07617",
+			"Rev": "1b07617a493d8e5fa21b9e14ca8e110033bbaf79"
 		},
 		{
 			"ImportPath": "github.com/xordataexchange/crypt/backend",
@@ -151,7 +160,15 @@
 			"Rev": "644910e6da851dcd66a424c71d068d971cfacba5"
 		},
 		{
+			"ImportPath": "golang.org/x/crypto/ocsp",
+			"Rev": "644910e6da851dcd66a424c71d068d971cfacba5"
+		},
+		{
 			"ImportPath": "golang.org/x/crypto/openpgp",
+			"Rev": "644910e6da851dcd66a424c71d068d971cfacba5"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/sha3",
 			"Rev": "644910e6da851dcd66a424c71d068d971cfacba5"
 		},
 		{
