@@ -1,5 +1,11 @@
 port = 3000
 
+# Not implemented
+[https]
+port = 443
+# Redirect http to https
+redirect = true
+
 [crawl]
 # How often feeds should be fetched
 interval = "15m"

@@ -33,20 +33,29 @@ func init() {
 
 	cobra.OnInitialize(func() {
 		dir = viper.GetString("dir")
-		os.Mkdir(dir, 0777)
+		os.MkdirAll(dir, 0777)
 		initConfig()
 
 		viper.SetConfigName("config")
 		viper.AddConfigPath(dir)
 		viper.ReadInConfig()
 
-		api.Configure(&api.Config{
+		cfg := &api.Config{
 			Port:                   viper.GetInt("port"),
 			Debug:                  viper.GetBool("debug"),
 			Dir:                    dir,
 			CrawlInterval:          viper.GetDuration("crawl.interval"),
 			MaxDownloadConnections: viper.GetInt("crawl.max_conn"),
-		})
+		}
+
+		sslPath := path.Join(dir, "ssl")
+		if _, err := os.Stat(sslPath); err == nil {
+			cfg.SSL = true
+			cfg.Cert = path.Join(sslPath, "cert")
+			cfg.Key = path.Join(sslPath, "key")
+		}
+
+		api.Configure(cfg)
 	})
 }
 
@@ -60,6 +69,7 @@ func addCommands() {
 	usersCmd.AddCommand(usersAddCmd)
 	usersCmd.AddCommand(usersRemoveCmd)
 	castcloudCmd.AddCommand(usersCmd)
+	castcloudCmd.AddCommand(sslCmd)
 }
 
 func bindFlags() {

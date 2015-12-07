@@ -22,6 +22,9 @@ var (
 
 type Config struct {
 	Port  int
+	SSL   bool
+	Cert  string
+	Key   string
 	Dir   string
 	Debug bool
 
@@ -57,8 +60,16 @@ func Serve() {
 		})
 	}
 
-	log.Println("API listening on port", config.Port)
-	createRouter().Run(":" + strconv.Itoa(config.Port))
+	r := createRouter()
+	port := ":" + strconv.Itoa(config.Port)
+
+	if config.SSL {
+		log.Println("[HTTP] API listening on port", config.Port)
+		r.RunTLS(port, config.Cert, config.Key)
+	} else {
+		log.Println("[HTTPS] API listening on port", config.Port)
+		r.Run(port)
+	}
 }
 
 func openStore(p string) {
