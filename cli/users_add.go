@@ -3,8 +3,8 @@ package cli
 import (
 	"fmt"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/howeyc/gopass"
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/howeyc/gopass"
+	"github.com/spf13/cobra"
 
 	"github.com/Castcloud/castcloud-go-server/api"
 
@@ -43,12 +43,21 @@ var usersAddCmd = &cobra.Command{
 func getPassword() string {
 	for {
 		fmt.Print("Enter password: ")
-		pass := string(gopass.GetPasswdMasked())
-		fmt.Print("Re-enter password: ")
-		passVerify := string(gopass.GetPasswdMasked())
+		pass, err := gopass.GetPasswdMasked()
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 
-		if pass == passVerify {
-			return pass
+		fmt.Print("Re-enter password: ")
+		passVerify, err := gopass.GetPasswdMasked()
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
+		if string(pass) == string(passVerify) {
+			return string(pass)
 		}
 
 		fmt.Println("Passwords do not match, try again")

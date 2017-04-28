@@ -6,9 +6,9 @@ import (
 	"os"
 	"path"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/mitchellh/go-homedir"
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/viper"
+	"github.com/mitchellh/go-homedir"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
 	"github.com/Castcloud/castcloud-go-server/api"
 	"github.com/Castcloud/castcloud-go-server/assets"
@@ -44,15 +44,9 @@ func init() {
 			Port:                   viper.GetInt("port"),
 			Debug:                  viper.GetBool("debug"),
 			Dir:                    dir,
+			LogFormat:              viper.GetString("log_format"),
 			CrawlInterval:          viper.GetDuration("crawl.interval"),
 			MaxDownloadConnections: viper.GetInt("crawl.max_conn"),
-		}
-
-		sslPath := path.Join(dir, "ssl")
-		if _, err := os.Stat(sslPath); err == nil {
-			cfg.SSL = true
-			cfg.Cert = path.Join(sslPath, "cert")
-			cfg.Key = path.Join(sslPath, "key")
 		}
 
 		api.Configure(cfg)
@@ -69,7 +63,6 @@ func addCommands() {
 	usersCmd.AddCommand(usersAddCmd)
 	usersCmd.AddCommand(usersRemoveCmd)
 	castcloudCmd.AddCommand(usersCmd)
-	castcloudCmd.AddCommand(sslCmd)
 }
 
 func bindFlags() {
@@ -83,6 +76,7 @@ func bindFlags() {
 }
 
 func setDefaults() {
+	viper.SetDefault("log_format", "${time_rfc3339} ${remote_ip} ${status} ${method}\t${uri}\t\t${latency_human}\n")
 	viper.SetDefault("crawl.interval", "15m")
 	viper.SetDefault("crawl.max_conn", 128)
 }

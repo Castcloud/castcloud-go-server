@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
-	mw "github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo/middleware"
+	"github.com/labstack/echo"
+	mw "github.com/labstack/echo/middleware"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -21,12 +21,10 @@ var (
 )
 
 type Config struct {
-	Port  int
-	SSL   bool
-	Cert  string
-	Key   string
-	Dir   string
-	Debug bool
+	Port      int
+	Dir       string
+	Debug     bool
+	LogFormat string
 
 	CrawlInterval          time.Duration
 	MaxDownloadConnections int
@@ -60,16 +58,8 @@ func Serve() {
 		})
 	}
 
-	r := createRouter()
 	port := ":" + strconv.Itoa(config.Port)
-
-	if config.SSL {
-		log.Println("[HTTP] API listening on port", config.Port)
-		r.RunTLS(port, config.Cert, config.Key)
-	} else {
-		log.Println("[HTTPS] API listening on port", config.Port)
-		r.Run(port)
-	}
+	createRouter(false).Start(port)
 }
 
 func openStore(p string) {
@@ -82,50 +72,54 @@ func openStore(p string) {
 	}
 }
 
-func createRouter() *echo.Echo {
+func createRouter(silent bool) *echo.Echo {
 	r := echo.New()
 
-	r.SetHTTPErrorHandler(errorHandler)
+	r.HTTPErrorHandler = errorHandler
 
-	r.Use(mw.Logger())
+	if !silent {
+		r.Use(mw.LoggerWithConfig(mw.LoggerConfig{
+			Format: config.LogFormat,
+		}))
+	}
 	r.Use(mw.Recover())
 	r.Use(cors())
-	r.Use(mw.StripTrailingSlash())
-	r.Use(auth())
+	r.Use(mw.RemoveTrailingSlash())
+	r.Use(auth)
 
 	account := r.Group("/account")
-	account.Post("/login", login)
-	account.Get("/ping", ping)
-	account.Get("/settings", getSettings)
-	account.Post("/settings", setSettings)
-	account.Delete("/settings/:id", removeSetting)
+	account.POST("/login", login)
+	account.GET("/ping", ping)
+	account.GET("/settings", getSettings)
+	account.POST("/settings", setSettings)
+	account.DELETE("/settings/:id", removeSetting)
 	//account.Get("/takeout")
 
 	casts := r.Group("/library/casts")
-	casts.Get("", getCasts)
-	casts.Post("", addCast)
-	casts.Put("/:id", renameCast)
-	casts.Delete("/:id", removeCast)
+	casts.GET("", getCasts)
+	casts.POST("", addCast)
+	casts.PUT("/:id", renameCast)
+	casts.DELETE("/:id", removeCast)
 
 	episodes := r.Group("/library")
-	episodes.Get("/newepisodes", getNewEpisodes)
-	episodes.Get("/episodes/:castid", getEpisodes)
-	episodes.Get("/episode/:id", getEpisode)
-	episodes.Get("/episodes/label/:label", getEpisodesByLabel)
+	episodes.GET("/newepisodes", getNewEpisodes)
+	episodes.GET("/episodes/:castid", getEpisodes)
+	episodes.GET("/episode/:id", getEpisode)
+	episodes.GET("/episodes/label/:label", getEpisodesByLabel)
 
 	events := r.Group("/library/events")
-	events.Get("", getEvents)
-	events.Post("", addEvents)
+	events.GET("", getEvents)
+	events.POST("", addEvents)
 
 	labels := r.Group("/library/labels")
-	labels.Get("", getLabels)
-	labels.Post("", addLabel)
-	labels.Put("/:id", updateLabel)
-	labels.Delete("/:id", removeLabel)
+	labels.GET("", getLabels)
+	labels.POST("", addLabel)
+	labels.PUT("/:id", updateLabel)
+	labels.DELETE("/:id", removeLabel)
 
 	/*opml := r.Group("/library")
-	opml.Get("/casts.opml")
-	opml.Post("/casts.opml")*/
+	opml.GET("/casts.opml")
+	opml.POST("/casts.opml")*/
 
 	// Perhaps:
 	// /newepisodes           -> /episodes?since=0
@@ -134,11 +128,11 @@ func createRouter() *echo.Echo {
 	return r
 }
 
-func errorHandler(err error, c *echo.Context) {
+func errorHandler(err error, c echo.Context) {
 	code := http.StatusInternalServerError
 	msg := http.StatusText(code)
 	if he, ok := err.(*echo.HTTPError); ok {
-		code = he.Code()
+		code = he.Code
 		msg = he.Error()
 	}
 	c.Response().Header().Set("Content-Type", "text/plain; charset=utf-8")

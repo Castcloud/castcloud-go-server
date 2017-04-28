@@ -3,7 +3,7 @@ package cli
 import (
 	"fmt"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 
 	"github.com/Castcloud/castcloud-go-server/api"
 )

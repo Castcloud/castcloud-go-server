@@ -3,13 +3,13 @@ package api
 import (
 	"sync"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/labstack/echo"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
-func auth() echo.HandlerFunc {
-	return func(c *echo.Context) error {
+func auth(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
 		if c.Request().URL.Path != "/account/login" {
 			token := c.Request().Header.Get("Authorization")
 			if token == "" {
@@ -21,7 +21,7 @@ func auth() echo.HandlerFunc {
 				c.Set("user", user)
 				c.Set("token", token)
 				c.Set("uuid", user.UUID(token))
-				return nil
+				return next(c)
 			}
 
 			user = store.GetUserByToken(token)
@@ -35,7 +35,7 @@ func auth() echo.HandlerFunc {
 			c.Set("uuid", user.UUID(token))
 		}
 
-		return nil
+		return next(c)
 	}
 }
 

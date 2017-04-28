@@ -3,7 +3,7 @@ package api
 import (
 	"testing"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestStoreGetCasts(t *testing.T) {

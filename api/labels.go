@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/labstack/echo"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -17,7 +17,7 @@ type addedLabel struct {
 //
 // GET /library/labels
 //
-func getLabels(c *echo.Context) error {
+func getLabels(c echo.Context) error {
 	user := c.Get("user").(*User)
 	return c.JSON(200, store.GetLabels(user.ID))
 }
@@ -25,7 +25,7 @@ func getLabels(c *echo.Context) error {
 //
 // POST /library/labels
 //
-func addLabel(c *echo.Context) error {
+func addLabel(c echo.Context) error {
 	name := strings.TrimPrefix(form(c, "name"), "label/")
 	if name == "" {
 		return c.String(400, "Name too short")
@@ -54,7 +54,7 @@ func addLabel(c *echo.Context) error {
 //
 // PUT /library/labels/:id
 //
-func updateLabel(c *echo.Context) error {
+func updateLabel(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		return c.NoContent(400)
@@ -82,7 +82,7 @@ func updateLabel(c *echo.Context) error {
 //
 // DELETE /library/labels/:id
 //
-func removeLabel(c *echo.Context) error {
+func removeLabel(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		return c.NoContent(400)

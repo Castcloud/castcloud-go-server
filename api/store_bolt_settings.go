@@ -5,7 +5,7 @@ import (
 	"encoding/binary"
 	"strconv"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/boltdb/bolt"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -20,7 +20,7 @@ func (s *BoltStore) GetSettings(userid uint64, clientUUID string) []Setting {
 
 		for k, v := c.Seek(prefix); bytes.HasPrefix(k, prefix); k, v = c.Next() {
 			setting := &Setting{}
-			setting.UnmarshalMsg(v)
+			setting.Unmarshal(v)
 			if !setting.ClientSpecific {
 				m[setting.Name] = setting
 			}
@@ -30,7 +30,7 @@ func (s *BoltStore) GetSettings(userid uint64, clientUUID string) []Setting {
 
 		for k, v := c.Seek(prefix); bytes.HasPrefix(k, prefix); k, v = c.Next() {
 			setting := &Setting{}
-			setting.UnmarshalMsg(v)
+			setting.Unmarshal(v)
 			m[setting.Name] = setting
 		}
 
@@ -68,11 +68,11 @@ func (s *BoltStore) SaveSettings(settings []Setting, userid uint64, clientUUID s
 				}
 			} else {
 				s := &Setting{}
-				s.UnmarshalMsg(v)
+				s.Unmarshal(v)
 				setting.ID = s.ID
 			}
 
-			v, err = setting.MarshalMsg(nil)
+			v, err = setting.Marshal(nil)
 			if err != nil {
 				return err
 			}

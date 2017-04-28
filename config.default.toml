@@ -1,5 +1,7 @@
 port = 3000
 
+log_format = "${time_rfc3339} ${remote_ip} ${status} ${method}\t${uri}\t\t${latency_human}\n"
+
 # Not implemented
 [https]
 port = 443

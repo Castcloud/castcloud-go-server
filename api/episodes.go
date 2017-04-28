@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/labstack/echo"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -17,7 +17,7 @@ type newEpisodes struct {
 //
 // GET /library/newepisodes
 //
-func getNewEpisodes(c *echo.Context) error {
+func getNewEpisodes(c echo.Context) error {
 	now := time.Now().Unix()
 	user := c.Get("user").(*User)
 	since := c.Request().URL.Query().Get("since")
@@ -42,7 +42,7 @@ func getNewEpisodes(c *echo.Context) error {
 //
 // GET /library/episodes/:castid
 //
-func getEpisodes(c *echo.Context) error {
+func getEpisodes(c echo.Context) error {
 	castid, err := strconv.ParseUint(c.Param("castid"), 10, 64)
 	if err != nil {
 		return c.NoContent(400)
@@ -54,7 +54,7 @@ func getEpisodes(c *echo.Context) error {
 //
 // GET /library/episode/:id
 //
-func getEpisode(c *echo.Context) error {
+func getEpisode(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		return c.NoContent(400)
@@ -66,6 +66,6 @@ func getEpisode(c *echo.Context) error {
 //
 // GET /library/episodes/label/:label
 //
-func getEpisodesByLabel(c *echo.Context) error {
+func getEpisodesByLabel(c echo.Context) error {
 	return nil
 }

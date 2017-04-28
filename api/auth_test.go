@@ -4,23 +4,23 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/labstack/echo"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAuth(t *testing.T) {
-	mw := auth()
+	mw := auth(func(c echo.Context) error { return nil })
 	req, _ := http.NewRequest("GET", "/not/allowed", nil)
-	c := echo.NewContext(req, echo.NewResponse(nil), echo.New())
-
+	e := echo.New()
+	c := e.NewContext(req, echo.NewResponse(nil, e))
 	// It should return a 401 error if no token is set
 	err := mw(c).(*echo.HTTPError)
-	assert.Equal(t, 401, err.Code())
+	assert.Equal(t, 401, err.Code)
 
 	// It should return a 401 error if the token is invalid
 	c.Request().Header.Set("Authorization", "stuff")
 	err = mw(c).(*echo.HTTPError)
-	assert.Equal(t, 401, err.Code())
+	assert.Equal(t, 401, err.Code)
 
 	// It should return nil if the token is valid
 	c.Request().Header.Set("Authorization", "token")

@@ -5,13 +5,13 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func TestLogin(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 400 if required params are missing
 	req := testRequest(r, "POST", "/account/login", nil)
@@ -47,7 +47,7 @@ func TestLogin(t *testing.T) {
 }
 
 func TestPing(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 401 if no token is set
 	req := testRequest(r, "GET", "/account/ping", nil)
@@ -63,7 +63,7 @@ func TestPing(t *testing.T) {
 }
 
 func TestGetSettings(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 200 and a list of settings
 	req := testRequest(r, "GET", "/account/settings", nil)
@@ -74,7 +74,7 @@ func TestGetSettings(t *testing.T) {
 }
 
 func TestSetSettings(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 400 when there is no json in the body
 	req := testRequest(r, "POST", "/account/settings", nil)
@@ -174,7 +174,7 @@ func checkSettings(t *testing.T, req testReq) []Setting {
 }
 
 func TestRemoveSetting(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 400 if the id is invalid
 	req := testRequest(r, "DELETE", "/account/settings/cake", nil)
@@ -212,7 +212,7 @@ func TestCreateToken(t *testing.T) {
 }
 
 func BenchmarkPing(b *testing.B) {
-	r := createRouter()
+	r := createRouter(true)
 	req := testRequest(r, "GET", "/account/ping", nil)
 	req.Header.Set("Authorization", "token")
 

@@ -3,7 +3,7 @@ package api
 import (
 	"strconv"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/labstack/echo"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -11,7 +11,7 @@ import (
 //
 // GET /library/casts
 //
-func getCasts(c *echo.Context) error {
+func getCasts(c echo.Context) error {
 	user := c.Get("user").(*User)
 	return c.JSON(200, store.GetCastsByID(user.Subscriptions))
 }
@@ -19,7 +19,7 @@ func getCasts(c *echo.Context) error {
 //
 // POST /library/casts
 //
-func addCast(c *echo.Context) error {
+func addCast(c echo.Context) error {
 	user := c.Get("user").(*User)
 	url := form(c, "feedurl")
 	cast := store.GetCastByURL(url)
@@ -43,7 +43,7 @@ func addCast(c *echo.Context) error {
 //
 // PUT /library/casts/:id
 //
-func renameCast(c *echo.Context) error {
+func renameCast(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		return c.NoContent(400)
@@ -66,7 +66,7 @@ func renameCast(c *echo.Context) error {
 //
 // DELETE /library/casts/:id
 //
-func removeCast(c *echo.Context) error {
+func removeCast(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		return c.NoContent(400)

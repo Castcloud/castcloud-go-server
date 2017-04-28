@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/boltdb/bolt"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -17,7 +17,7 @@ func (s *BoltStore) GetEpisode(id uint64) *Episode {
 		v := b.Get(uint64Bytes(id))
 		if v != nil {
 			episode = &Episode{}
-			episode.UnmarshalMsg(v)
+			episode.Unmarshal(v)
 			episode.DecodeFeed()
 		}
 
@@ -38,7 +38,7 @@ func (s *BoltStore) GetEpisodesByCast(castid uint64) []Episode {
 		for key, id := c.Seek(prefix); bytes.HasPrefix(key, prefix); key, id = c.Next() {
 			v := b.Get(id)
 			episode := &Episode{}
-			episode.UnmarshalMsg(v)
+			episode.Unmarshal(v)
 			episode.DecodeFeed()
 			episodes = append(episodes, *episode)
 		}
@@ -64,7 +64,7 @@ func (s *BoltStore) GetEpisodesSince(ts int64, castids []uint64) []Episode {
 				if i == castid {
 					v := b.Get(id)
 					episode := &Episode{}
-					episode.UnmarshalMsg(v)
+					episode.Unmarshal(v)
 					episode.DecodeFeed()
 					episodes = append(episodes, *episode)
 					break
@@ -114,7 +114,7 @@ func (s *BoltStore) saveEpisode(tx *bolt.Tx, ep *Episode) error {
 	}
 
 	ep.EncodeFeed()
-	v, err := ep.MarshalMsg(nil)
+	v, err := ep.Marshal(nil)
 	if err != nil {
 		return err
 	}

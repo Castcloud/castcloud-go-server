@@ -5,13 +5,13 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func TestGetLabels(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 200 and a list of labels with the root label
 	// already added, which contains the test cast
@@ -27,7 +27,7 @@ func TestGetLabels(t *testing.T) {
 }
 
 func TestAddLabel(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 400 if the label name is not set
 	req := testRequest(r, "POST", "/library/labels", nil)
@@ -67,7 +67,7 @@ func TestAddLabel(t *testing.T) {
 }
 
 func TestUpdateLabel(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 400 if the ID is invalid
 	req := testRequest(r, "PUT", "/library/labels/broken", nil)
@@ -101,7 +101,7 @@ func TestUpdateLabel(t *testing.T) {
 }
 
 func TestRemoveLabel(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 400 if the ID is invalid
 	req := testRequest(r, "DELETE", "/library/labels/rawr", nil)

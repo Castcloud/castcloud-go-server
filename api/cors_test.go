@@ -4,18 +4,19 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/labstack/echo"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCORS(t *testing.T) {
 	mw := cors()
 	req := testRequest(nil, "GET", "/", nil)
 	res := httptest.NewRecorder()
-	c := echo.NewContext(req.Request, echo.NewResponse(res), echo.New())
+	e := echo.New()
+	c := e.NewContext(req.Request, echo.NewResponse(res, e))
 	called := false
 
-	next := func(c *echo.Context) error {
+	next := func(c echo.Context) error {
 		called = true
 		return nil
 	}
@@ -37,7 +38,7 @@ func TestCORS(t *testing.T) {
 	// returns 200 when receiving a preflight request
 	req.Method = "OPTIONS"
 	res = httptest.NewRecorder()
-	c = echo.NewContext(req.Request, echo.NewResponse(res), echo.New())
+	c = e.NewContext(req.Request, echo.NewResponse(res, e))
 	res.Code = 0
 	called = false
 	h(c)

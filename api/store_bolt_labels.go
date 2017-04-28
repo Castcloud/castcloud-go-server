@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/boltdb/bolt"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -33,7 +33,7 @@ func (s *BoltStore) GetLabels(userid uint64) []Label {
 		for key, id := c.Seek(prefix); bytes.HasPrefix(key, prefix); key, id = c.Next() {
 			v := b.Get(id)
 			label := &Label{}
-			label.UnmarshalMsg(v)
+			label.Unmarshal(v)
 			labels = append(labels, *label)
 		}
 
@@ -60,7 +60,7 @@ func (s *BoltStore) SaveLabel(label *Label, userid uint64) error {
 			}
 		}
 
-		v, err := label.MarshalMsg(nil)
+		v, err := label.Marshal(nil)
 		if err != nil {
 			return err
 		}
@@ -118,7 +118,7 @@ func (s *BoltStore) getLabel(tx *bolt.Tx, id []byte) *Label {
 	v := b.Get(id)
 	if v != nil {
 		label := &Label{}
-		label.UnmarshalMsg(v)
+		label.Unmarshal(v)
 		return label
 	}
 	return nil
@@ -133,7 +133,7 @@ func (s *BoltStore) addToRootLabel(tx *bolt.Tx, itemType string, itemID uint64, 
 	if id != nil {
 		v := b.Get(id)
 		root := &Label{}
-		root.UnmarshalMsg(v)
+		root.Unmarshal(v)
 		if strings.Contains(root.Content, label) {
 			return
 		}
@@ -143,7 +143,7 @@ func (s *BoltStore) addToRootLabel(tx *bolt.Tx, itemType string, itemID uint64, 
 		}
 		root.Content += label
 
-		v, err = root.MarshalMsg(nil)
+		v, err = root.Marshal(nil)
 		if err != nil {
 			return
 		}
@@ -161,7 +161,7 @@ func (s *BoltStore) addToRootLabel(tx *bolt.Tx, itemType string, itemID uint64, 
 			return
 		}
 
-		v, err := root.MarshalMsg(nil)
+		v, err := root.Marshal(nil)
 		if err != nil {
 			return
 		}
@@ -190,7 +190,7 @@ func (s *BoltStore) removeFromRootLabel(tx *bolt.Tx, itemType string, itemID uin
 		b := tx.Bucket(boltBucketLabels)
 		v := b.Get(id)
 		root := &Label{}
-		root.UnmarshalMsg(v)
+		root.Unmarshal(v)
 
 		if strings.Contains(root.Content, ","+label) {
 			root.Content = strings.Replace(root.Content, ","+label, "", 1)
@@ -200,7 +200,7 @@ func (s *BoltStore) removeFromRootLabel(tx *bolt.Tx, itemType string, itemID uin
 			root.Content = strings.Replace(root.Content, label, "", 1)
 		}
 
-		v, err := root.MarshalMsg(nil)
+		v, err := root.Marshal(nil)
 		if err != nil {
 			return
 		}

@@ -1,0 +1,56 @@
+struct User {
+	ID            uint64
+	Username      string
+	Password      string
+	Clients       []*Client
+	Subscriptions []uint64
+}
+
+struct Client {
+	Token string
+	UUID  string
+	Name  string
+}
+
+struct Setting {
+	ID             uint64
+	Name           string
+	Value          string
+	ClientSpecific bool
+	ClientUUID     string
+}
+
+struct Cast {
+	ID        uint64
+	URL       string
+	Name      string
+	FeedBytes []byte
+}
+
+struct Episode {
+	ID        uint64
+	CastID    uint64
+	LastEvent *Event
+	FeedBytes []byte
+	GUID      string
+	CrawlTS   int64
+}
+
+struct Event {
+	Type              int32
+	EpisodeID         uint64
+	PositionTS        int32
+	ClientTS          uint64
+	ConcurrentOrder   int32
+	ClientName        string
+	ClientDescription string
+	ClientUUID        string
+}
+
+struct Label {
+	ID       uint64
+	Name     string
+	Content  string
+	Expanded bool
+	Root     bool
+}

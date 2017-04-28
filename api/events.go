@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
+	"github.com/labstack/echo"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -18,7 +18,7 @@ type events struct {
 //
 // GET /library/events
 //
-func getEvents(c *echo.Context) error {
+func getEvents(c echo.Context) error {
 	now := time.Now().Unix()
 	var err error
 	var ts uint64
@@ -46,7 +46,7 @@ func getEvents(c *echo.Context) error {
 //
 // POST /library/events
 //
-func addEvents(c *echo.Context) error {
+func addEvents(c echo.Context) error {
 	data := form(c, "json")
 	if data == "" {
 		return c.NoContent(400)

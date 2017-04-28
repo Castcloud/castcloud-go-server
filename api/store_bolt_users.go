@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/bcrypt"
+	"github.com/boltdb/bolt"
+	"golang.org/x/crypto/bcrypt"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -21,7 +21,7 @@ func (s *BoltStore) GetUser(username string) *User {
 		v := b.Get(id)
 		if v != nil {
 			user = &User{}
-			user.UnmarshalMsg(v)
+			user.Unmarshal(v)
 		}
 
 		return nil
@@ -38,7 +38,7 @@ func (s *BoltStore) GetUsers() []User {
 		b := tx.Bucket(boltBucketUsers)
 
 		return b.ForEach(func(k, v []byte) error {
-			user.UnmarshalMsg(v)
+			user.Unmarshal(v)
 			users = append(users, *user)
 			return nil
 		})
@@ -59,7 +59,7 @@ func (s *BoltStore) GetUserByToken(token string) *User {
 
 		b := tx.Bucket(boltBucketUsers)
 		user = &User{}
-		user.UnmarshalMsg(b.Get(id))
+		user.Unmarshal(b.Get(id))
 		return nil
 	})
 
@@ -97,7 +97,7 @@ func (s *BoltStore) AddUser(user *User) error {
 			return err
 		}
 
-		v, err := user.MarshalMsg(nil)
+		v, err := user.Marshal(nil)
 		if err != nil {
 			return err
 		}
@@ -137,11 +137,11 @@ func (s *BoltStore) AddClient(userid uint64, client *Client) error {
 		}
 
 		user := &User{}
-		user.UnmarshalMsg(v)
+		user.Unmarshal(v)
 
 		user.Clients = append(user.Clients, client)
 
-		v, err := user.MarshalMsg(nil)
+		v, err := user.Marshal(nil)
 		if err != nil {
 			return err
 		}
@@ -175,7 +175,7 @@ func (s *BoltStore) AddSubscription(userid, castid uint64) (*User, error) {
 		}
 
 		user = &User{}
-		user.UnmarshalMsg(v)
+		user.Unmarshal(v)
 
 		for _, subid := range user.Subscriptions {
 			if castid == subid {
@@ -185,7 +185,7 @@ func (s *BoltStore) AddSubscription(userid, castid uint64) (*User, error) {
 
 		user.Subscriptions = append(user.Subscriptions, castid)
 
-		v, err := user.MarshalMsg(nil)
+		v, err := user.Marshal(nil)
 		if err != nil {
 			return err
 		}
@@ -217,13 +217,13 @@ func (s *BoltStore) RemoveSubscription(userid, castid uint64) (*User, error) {
 		}
 
 		user = &User{}
-		user.UnmarshalMsg(v)
+		user.Unmarshal(v)
 
 		for i, subid := range user.Subscriptions {
 			if castid == subid {
 				user.Subscriptions = append(user.Subscriptions[:i], user.Subscriptions[i+1:]...)
 
-				v, err := user.MarshalMsg(nil)
+				v, err := user.Marshal(nil)
 				if err != nil {
 					return err
 				}

@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/labstack/echo"
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/golang.org/x/crypto/bcrypt"
+	"github.com/labstack/echo"
+	"golang.org/x/crypto/bcrypt"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -19,7 +19,7 @@ type token struct {
 //
 // POST /account/login
 //
-func login(c *echo.Context) error {
+func login(c echo.Context) error {
 	if !formContains(c, "username", "password", "uuid", "clientname") {
 		return echo.NewHTTPError(400)
 	}
@@ -60,7 +60,7 @@ func login(c *echo.Context) error {
 //
 // GET /account/ping
 //
-func ping(c *echo.Context) error {
+func ping(c echo.Context) error {
 	// This function getting called means there was a valid token
 	return nil
 }
@@ -68,7 +68,7 @@ func ping(c *echo.Context) error {
 //
 // GET /account/settings
 //
-func getSettings(c *echo.Context) error {
+func getSettings(c echo.Context) error {
 	user := c.Get("user").(*User)
 	uuid := c.Get("uuid").(string)
 	return c.JSON(200, store.GetSettings(user.ID, uuid))
@@ -77,7 +77,7 @@ func getSettings(c *echo.Context) error {
 //
 // POST /account/settings
 //
-func setSettings(c *echo.Context) error {
+func setSettings(c echo.Context) error {
 	data := form(c, "json")
 	if data == "" {
 		return c.NoContent(400)
@@ -97,7 +97,7 @@ func setSettings(c *echo.Context) error {
 //
 // DELETE /account/settings/:id
 //
-func removeSetting(c *echo.Context) error {
+func removeSetting(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		return c.NoContent(400)

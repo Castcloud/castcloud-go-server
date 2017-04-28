@@ -5,13 +5,13 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func TestGetCasts(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	expectedJSON := testJSON([]Cast{
 		Cast{
@@ -34,7 +34,7 @@ func TestGetCasts(t *testing.T) {
 }
 
 func TestAddCast(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 	cast := &Cast{}
 
 	// It should return an existing cast
@@ -82,7 +82,7 @@ func TestAddCast(t *testing.T) {
 }
 
 func TestRenameCast(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	req := testRequest(r, "PUT", "/library/casts/1", nil)
 	req.Header.Set("Authorization", "token")
@@ -104,7 +104,7 @@ func TestRenameCast(t *testing.T) {
 }
 
 func TestRemoveCast(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	req := testRequest(r, "DELETE", "/library/casts/1", nil)
 	req.Header.Set("Authorization", "token")

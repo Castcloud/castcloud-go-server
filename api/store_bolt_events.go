@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/boltdb/bolt"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -22,14 +22,14 @@ func (s *BoltStore) GetEvents(userid, since uint64, excludeUUID string) []Event 
 
 		if excludeUUID != "" {
 			for k, v := c.Seek(start); bytes.HasPrefix(k, prefix); k, v = c.Next() {
-				event.UnmarshalMsg(v)
+				event.Unmarshal(v)
 				if event.ClientUUID != excludeUUID {
 					events = append(events, *event)
 				}
 			}
 		} else {
 			for k, v := c.Seek(start); bytes.HasPrefix(k, prefix); k, v = c.Next() {
-				event.UnmarshalMsg(v)
+				event.Unmarshal(v)
 				events = append(events, *event)
 			}
 		}
@@ -62,7 +62,7 @@ func (s *BoltStore) addEvent(tx *bolt.Tx, event *Event, userid uint64) error {
 		return err
 	}
 
-	v, err := event.MarshalMsg(nil)
+	v, err := event.Marshal(nil)
 	if err != nil {
 		return err
 	}

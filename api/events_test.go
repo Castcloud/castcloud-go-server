@@ -6,13 +6,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func TestGetEvents(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 400 if since is bad
 	req := testRequest(r, "GET", "/library/events?since=yesterday", nil)
@@ -43,7 +43,7 @@ func checkEvents(t *testing.T, req testReq) events {
 }
 
 func TestAddEvents(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	// It should return 400 if json is not set
 	req := testRequest(r, "POST", "/library/events", nil)

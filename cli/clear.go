@@ -5,7 +5,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var clearCmd = &cobra.Command{

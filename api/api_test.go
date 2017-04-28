@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -151,9 +152,11 @@ func testForm(f url.Values) *bytes.Buffer {
 }
 
 func testJSON(v interface{}) string {
-	buf := &bytes.Buffer{}
-	json.NewEncoder(buf).Encode(v)
-	return buf.String()
+	buf, err := json.Marshal(v)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return string(buf)
 }
 
 func tempfile() string {

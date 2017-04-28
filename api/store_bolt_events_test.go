@@ -3,7 +3,7 @@ package api
 import (
 	"testing"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
@@ -36,8 +36,8 @@ func TestEvents(t *testing.T) {
 
 	events = store.GetEvents(2, 99, "")
 	assert.Len(t, events, 1)
-	assert.Equal(t, 10, events[0].Type)
-	assert.Equal(t, 134, events[0].PositionTS)
+	assert.Equal(t, int32(10), events[0].Type)
+	assert.Equal(t, int32(134), events[0].PositionTS)
 
 	events = store.GetEvents(2, 99, "evuuid1")
 	assert.Len(t, events, 0)
@@ -47,5 +47,5 @@ func TestEvents(t *testing.T) {
 
 	events = store.GetEvents(2, 25, "")
 	assert.Len(t, events, 2)
-	assert.Equal(t, 112, events[0].PositionTS)
+	assert.Equal(t, int32(112), events[0].PositionTS)
 }

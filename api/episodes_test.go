@@ -6,13 +6,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Castcloud/castcloud-go-server/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 
 	. "github.com/Castcloud/castcloud-go-server/api/schema"
 )
 
 func TestGetNewEpisodes(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	req := testRequest(r, "GET", "/library/newepisodes?since=32503679999", nil)
 	req.Header.Set("Authorization", "token")
@@ -60,7 +60,7 @@ func checkNewEpisodes(t *testing.T, req testReq) newEpisodes {
 }
 
 func TestGetEpisodes(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	expectedJSON := testJSON([]Episode{
 		Episode{
@@ -88,7 +88,7 @@ func TestGetEpisodes(t *testing.T) {
 }
 
 func TestGetEpisode(t *testing.T) {
-	r := createRouter()
+	r := createRouter(true)
 
 	expectedJSON := testJSON(Episode{
 		ID:     1,
