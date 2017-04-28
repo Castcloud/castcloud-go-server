@@ -1,20 +1,16 @@
 language: go
 
 go:
-    - 1.4
-    - 1.5
+    - 1.7.5
+    - 1.8.1
     - tip
 
-env:
-    - GOMAXPROCS=2
-
 install:
-    - go get golang.org/x/tools/cmd/vet
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
     - go get golang.org/x/tools/cmd/cover
 
 script:
-    - go vet ./...
-    - go test -v -race ./...
+    - go vet $(go list ./... | grep -v '/vendor/')
+    - go test -v -race $(go list ./... | grep -v '/vendor/')
     - goveralls -package=github.com/Castcloud/castcloud-go-server/api -service=travis-ci
